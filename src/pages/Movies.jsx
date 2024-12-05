@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Carousel from 'react-material-ui-carousel'; // Import Carousel
 import '../css/movies.css';
 import YouTube from 'react-youtube';
 
@@ -74,9 +75,9 @@ const Movies = () => {
     <div>
       <h2>Movies Page</h2>
       
-      {/* Popular Movies Section */}
+      {/* Popular Movies Section with Carousel */}
       <h3>Popular Movies</h3>
-      <div className="movies-container">
+      <Carousel>
         {popularMovies.map((movie) => (
           <div className="movie-card" key={movie.id}>
             <Link
@@ -98,11 +99,11 @@ const Movies = () => {
             <p>{movie.overview}</p>
           </div>
         ))}
-      </div>
+      </Carousel>
 
-      {/* Upcoming Movies Section */}
+      {/* Upcoming Movies Section with Carousel */}
       <h3>Upcoming Movies</h3>
-      <div className="movies-container">
+      <Carousel>
         {upcomingMovies.map((movie) => (
           <div className="movie-card" key={movie.id}>
             <Link
@@ -124,11 +125,11 @@ const Movies = () => {
             <p>{movie.overview}</p>
           </div>
         ))}
-      </div>
+      </Carousel>
 
-      {/* Top Rated Movies Section */}
+      {/* Top Rated Movies Section with Carousel */}
       <h3>Top Rated Movies</h3>
-      <div className="movies-container">
+      <Carousel>
         {topRatedMovies.map((movie) => (
           <div className="movie-card" key={movie.id}>
             <Link
@@ -150,7 +151,7 @@ const Movies = () => {
             <p>{movie.overview}</p>
           </div>
         ))}
-      </div>
+      </Carousel>
     </div>
   );
 };
