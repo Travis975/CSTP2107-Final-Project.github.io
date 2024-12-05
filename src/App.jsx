@@ -5,7 +5,8 @@ import SignInPage from './pages/Signin';
 import SignUpPage from './pages/Signup';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
-import Movies from './pages/Movies';
+import MoviesPage from './pages/Movies';
+import WatchPage from './pages/WatchTrailer';
 
 function App() {
   // Using react router to handle routing through site
@@ -24,7 +25,11 @@ function App() {
     },
     {
       path:'/Movies',
-      element: <Movies />
+      element: <MoviesPage />
+    },
+    {
+      path:'/WatchTrailer',
+      element:< WatchPage />
     },
     {
       path: "*",
