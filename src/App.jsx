@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import MoviesPage from './pages/Movies';
 import WatchPage from './pages/WatchTrailer';
+import Navbar from './components/Navbar';
 
 function App() {
   // Using react router to handle routing through site
@@ -38,7 +39,12 @@ function App() {
 
   ]);
 
-  return routes;
+  return (
+    <>
+      <Navbar />
+      {routes}
+    </>
+   )
 
 }
 
