@@ -7,7 +7,7 @@ const HomePage = () => {
     return (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
             <h2>Welcome to Our Site!</h2>
-            <p>Make this the intro to the site before signing up.</p>
+            <p>Grab a snack and enjoy!</p>
             
             <div style={{ marginTop: '20px' }}>
                 <div style={{ marginBottom: '10px' }}>
