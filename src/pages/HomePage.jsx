@@ -14,10 +14,7 @@ const HomePage = () => {
                     <label style={{ display: 'block', fontSize: '14px', marginBottom: '5px' }}>
                         Click to go to the Sign In page:
                     </label>
-                    <button 
-                        style={{ padding: '10px 20px', cursor: 'pointer' }}
-                        onClick={() => navigate('/Signin')}
-                    >
+                    <button style={{ padding: '10px 20px', cursor: 'pointer' }} onClick={() => navigate('/Signin')}>
                         Sign In
                     </button>
                 </div>
@@ -25,10 +22,7 @@ const HomePage = () => {
                     <label style={{ display: 'block', fontSize: '14px', marginBottom: '5px' }}>
                         Click to go to the Sign Up page:
                     </label>
-                    <button 
-                        style={{ padding: '10px 20px', cursor: 'pointer' }}
-                        onClick={() => navigate('/Signup')}
-                    >
+                    <button style={{ padding: '10px 20px', cursor: 'pointer' }} onClick={() => navigate('/Signup')}>
                         Sign Up
                     </button>
                 </div>
