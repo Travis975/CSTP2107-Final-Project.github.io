@@ -14,6 +14,7 @@ const WatchTrailer = () => {
     <div>
       <h2>{movieTitle} - Trailer</h2>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        {/* edit the opts dimension below to change video player size */}
         <YouTube videoId={videoId} opts={{ height: '390', width: '640' }} />
       </div>
     </div>
