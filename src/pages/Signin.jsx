@@ -74,7 +74,7 @@ const SignInPage = () => {
         Forgot Password?
       </Typography>
       <Alert alertConfig={alertConfig} />
-      <Link to="/Signup">Don't have an account? Signup</Link>
+      <Link to="/signup">Don't have an account? Signup</Link>
 
       {/* Forgot Password Dialog */}
       <Dialog open={openResetDialog} onClose={() => setOpenResetDialog(false)}>

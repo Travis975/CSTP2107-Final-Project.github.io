@@ -81,7 +81,7 @@ const Movies = () => {
         {popularMovies.map((movie) => (
           <div className="movie-card" key={movie.id}>
             <Link
-              to="/WatchTrailer"
+              to="/watch-trailer"
               state={{
                 videoId: videos[movie.id] && videos[movie.id][0]?.key,
                 movieTitle: movie.title,
@@ -107,7 +107,7 @@ const Movies = () => {
         {upcomingMovies.map((movie) => (
           <div className="movie-card" key={movie.id}>
             <Link
-              to="/WatchTrailer"
+              to="/watch-trailer"
               state={{
                 videoId: videos[movie.id] && videos[movie.id][0]?.key,
                 movieTitle: movie.title,
@@ -133,7 +133,7 @@ const Movies = () => {
         {topRatedMovies.map((movie) => (
           <div className="movie-card" key={movie.id}>
             <Link
-              to="/WatchTrailer"
+              to="/watch-trailer"
               state={{
                 videoId: videos[movie.id] && videos[movie.id][0]?.key,
                 movieTitle: movie.title,

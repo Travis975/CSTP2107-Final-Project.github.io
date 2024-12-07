@@ -63,7 +63,7 @@ const SignUpPage = () => {
             />
             <Button onClick={handleSignup} variant="contained" color="secondary">Sign up</Button>
             <Alert alertConfig={alertConfig} />
-            <Link to="/Signin">Already have an account? Signin</Link>
+            <Link to="/signin">Already have an account? Signin</Link>
         </Box>
     )
 }

@@ -29,12 +29,12 @@ const Navbar = () => {
     const handleLogoClick = () => {
         if (
             location.pathname === '/' || 
-            location.pathname === '/Signin' || 
-            location.pathname === '/Signup'
+            location.pathname === '/signin' || 
+            location.pathname === '/signup'
         ) {
             navigate('/'); 
-        } else if (location.pathname === '/Movies' || location.pathname === '/WatchTrailer') {
-            navigate('/Movies'); 
+        } else if (location.pathname === '/movies' || location.pathname === '/watch-trailer') {
+            navigate('/movies'); 
         }
     };
 
@@ -67,7 +67,7 @@ const Navbar = () => {
                     ) : (
                         <Button
                             component={Link}
-                            to="/Signin"
+                            to="/signin"
                             variant="outlined"
                             style={{ color: 'white', border: '1px solid white' }}
                         >

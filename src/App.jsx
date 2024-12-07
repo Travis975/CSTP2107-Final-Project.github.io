@@ -8,6 +8,8 @@ import NotFoundPage from './pages/NotFoundPage';
 import MoviesPage from './pages/Movies';
 import WatchPage from './pages/WatchTrailer';
 import Navbar from './components/Navbar';
+import TermsPage from './pages/TermsAndConditions';
+import PrivacyPage from './pages/PrivacyPolicy';
 
 function App() {
   // Using react router to handle routing through site
@@ -17,20 +19,28 @@ function App() {
       element: <HomePage />
     },
     {
-      path:'/Signin',
+      path:'/signin',
       element: <SignInPage />
     },
     {
-      path:'/Signup',
+      path:'/signup',
       element: <SignUpPage />
     },
     {
-      path:'/Movies',
+      path:'/movies',
       element: <MoviesPage />
     },
     {
-      path:'/WatchTrailer',
+      path:'/watch-trailer',
       element:< WatchPage />
+    },
+    {
+      path:'/terms-and-conditions',
+      element:< TermsPage />
+    },
+    {
+      path:'/privacy-policy',
+      element:< PrivacyPage />
     },
     {
       path: "*",
