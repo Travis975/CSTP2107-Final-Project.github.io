@@ -1,12 +1,13 @@
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
 import logo from '../assets/logo.png';
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [user, setUser] = useState(null); 
 
     useEffect(() => {
@@ -25,22 +26,33 @@ const Navbar = () => {
         }
     };
 
+    const handleLogoClick = () => {
+        if (
+            location.pathname === '/' || 
+            location.pathname === '/Signin' || 
+            location.pathname === '/Signup'
+        ) {
+            navigate('/'); 
+        } else if (location.pathname === '/Movies' || location.pathname === '/WatchTrailer') {
+            navigate('/Movies'); 
+        }
+    };
+
     return (
-        <AppBar style={{ display: 'flex', justifyContent: 'space-between', padding: '0 16px' }}>
+        <AppBar style={{ display: 'flex', justifyContent: 'space-between', padding: '0 16px', backgroundColor: '#D3D3D3' }}>
             <Toolbar style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                 <Box>
-                    <Link to="/Movies" style={{ textDecoration: 'none' }}>
-                        <img
-                            src={logo}
-                            alt="Webflix Logo"
-                            style={{ 
-                                height: 60, 
-                                cursor: 'pointer',
-                                marginLeft: '-15px', 
-                                marginTop: '5px'
-                            }}
-                        />
-                    </Link>
+                    <img
+                        src={logo}
+                        alt="Webflix Logo"
+                        style={{ 
+                            height: 60, 
+                            cursor: 'pointer',
+                            marginLeft: '-15px', 
+                            marginTop: '5px'
+                        }}
+                        onClick={handleLogoClick} 
+                    />
                 </Box>
 
                 <Box display="flex" alignItems="center">
