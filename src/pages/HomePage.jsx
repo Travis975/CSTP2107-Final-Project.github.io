@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../css/homepage.css';
 
 const links = [
   { name: 'Open roles', href: '#' },
