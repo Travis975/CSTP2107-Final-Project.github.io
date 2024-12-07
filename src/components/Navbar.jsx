@@ -3,18 +3,16 @@ import { signOut } from 'firebase/auth';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
+import logo from '../assets/logo.png';
 
 const Navbar = () => {
     const navigate = useNavigate();
-    // Track the user state
     const [user, setUser] = useState(null); 
 
-    // Check if the user is signed in
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            setUser(user); // Update state based on auth state
+            setUser(user);
         });
-        // Clean up listener on component unmount
         return () => unsubscribe();
     }, []);
 
@@ -28,9 +26,24 @@ const Navbar = () => {
     };
 
     return (
-        <AppBar style={{ display: 'flex', alignItems: 'flex-end' }}>
-            <Toolbar>
-                <Box display="flex" alignItems="flex-end">
+        <AppBar style={{ display: 'flex', justifyContent: 'space-between', padding: '0 16px' }}>
+            <Toolbar style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                <Box>
+                    <Link to="/Movies" style={{ textDecoration: 'none' }}>
+                        <img
+                            src={logo}
+                            alt="Webflix Logo"
+                            style={{ 
+                                height: 60, 
+                                cursor: 'pointer',
+                                marginLeft: '-15px', 
+                                marginTop: '5px'
+                            }}
+                        />
+                    </Link>
+                </Box>
+
+                <Box display="flex" alignItems="center">
                     {user ? (
                         <Button
                             onClick={handleSignout}
@@ -42,7 +55,7 @@ const Navbar = () => {
                     ) : (
                         <Button
                             component={Link}
-                            to="/Signin" // Navigate to sign-in page
+                            to="/Signin"
                             variant="outlined"
                             style={{ color: 'white', border: '1px solid white' }}
                         >
