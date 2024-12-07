@@ -10,6 +10,7 @@ import WatchPage from './pages/WatchTrailer';
 import Navbar from './components/Navbar';
 import TermsPage from './pages/TermsAndConditions';
 import PrivacyPage from './pages/PrivacyPolicy';
+import AccountPage from './pages/Account';
 
 function App() {
   // Using react router to handle routing through site
@@ -33,6 +34,10 @@ function App() {
     {
       path:'/watch-trailer',
       element:< WatchPage />
+    },
+    {
+      path:'/account',
+      element:< AccountPage />
     },
     {
       path:'/terms-and-conditions',
