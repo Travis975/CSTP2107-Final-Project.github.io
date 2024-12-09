@@ -1,14 +1,16 @@
-import { AppBar, Box, Button, Toolbar } from '@mui/material';
-import { signOut } from 'firebase/auth';
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { AppBar, Box, Menu, MenuItem, Toolbar } from '@mui/material';
+import { signOut } from 'firebase/auth';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
 import logo from '../assets/logo.png';
+import userlogo from '../assets/user.png';
 
 const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [user, setUser] = useState(null); 
+    const [user, setUser] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -21,59 +23,117 @@ const Navbar = () => {
         try {
             await signOut(auth);
             navigate('/');
+            handleCloseDropdown();
         } catch (error) {
-            console.log(error);
+            console.error('Error signing out:', error);
         }
     };
 
-    const handleLogoClick = () => {
+    const handleLogoClick = (event) => {
+        event.stopPropagation();
         if (
-            location.pathname === '/' || 
-            location.pathname === '/signin' || 
+            location.pathname === '/' ||
+            location.pathname === '/signin' ||
             location.pathname === '/signup'
         ) {
-            navigate('/'); 
-        } else if (location.pathname === '/movies' || location.pathname === '/watch-trailer') {
-            navigate('/movies'); 
+            navigate('/');
+        } else if (
+            location.pathname === '/movies' ||
+            location.pathname === '/watch-trailer' ||
+            location.pathname === '/account' ||
+            location.pathname === '/favourites' ||
+            location.pathname === '/watchlater'
+        ) {
+            navigate('/movies');
         }
+    };
+
+    const handleUserLogoHover = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleUserLogoClick = (event) => {
+        event.stopPropagation();
+        if (
+            location.pathname === '/' ||
+            location.pathname === '/signin' ||
+            location.pathname === '/signup'
+        ) {
+            navigate('/');
+        } else if (
+            location.pathname === '/movies' ||
+            location.pathname === '/watch-trailer' ||
+            location.pathname === '/account' ||
+            location.pathname === '/favourites' ||
+            location.pathname === '/watchlater'
+        ) {
+            navigate('/movies');
+        }
+    };
+
+    const handleCloseDropdown = () => {
+        setAnchorEl(null);
+    };
+
+    const handleNavigation = (route) => {
+        navigate(route);
+        handleCloseDropdown();
     };
 
     return (
-        <AppBar style={{ display: 'flex', justifyContent: 'space-between', padding: '0 16px', backgroundColor: '#D3D3D3' }}>
+        <AppBar
+            style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '0 16px',
+                backgroundColor: '#D3D3D3',
+            }}
+        >
             <Toolbar style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                 <Box>
                     <img
                         src={logo}
                         alt="Webflix Logo"
-                        style={{ 
-                            height: 60, 
+                        style={{
+                            height: 60,
                             cursor: 'pointer',
-                            marginLeft: '-15px', 
-                            marginTop: '5px'
+                            marginLeft: '-15px',
+                            marginTop: '5px',
                         }}
-                        onClick={handleLogoClick} 
+                        onClick={handleLogoClick}
                     />
                 </Box>
 
-                <Box display="flex" alignItems="center">
-                    {user ? (
-                        <Button
-                            onClick={handleSignout}
-                            variant="outlined"
-                            style={{ color: 'white', border: '1px solid white' }}
-                        >
-                            Sign Out
-                        </Button>
-                    ) : (
-                        <Button
-                            component={Link}
-                            to="/signin"
-                            variant="outlined"
-                            style={{ color: 'white', border: '1px solid white' }}
-                        >
-                            Sign In
-                        </Button>
-                    )}
+                <Box>
+                    <img
+                        src={userlogo}
+                        alt="User Logo"
+                        style={{
+                            height: 45,
+                            cursor: 'pointer',
+                            marginRight: '25px',
+                            marginTop: '5px',
+                        }}
+                        onClick={handleUserLogoClick}
+                        onMouseEnter={handleUserLogoHover}
+                    />
+
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleCloseDropdown}
+                        MenuListProps={{
+                            onMouseLeave: handleCloseDropdown,
+                        }}
+                    >
+                        <MenuItem onClick={() => handleNavigation('/favourites')}>
+                            Favourite Movies
+                        </MenuItem>
+                        <MenuItem onClick={() => handleNavigation('/watchlater')}>
+                            Watch Later
+                        </MenuItem>
+                        <MenuItem onClick={handleSignout}>Sign Out</MenuItem>
+                    </Menu>
                 </Box>
             </Toolbar>
         </AppBar>
