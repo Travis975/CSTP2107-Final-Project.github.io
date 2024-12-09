@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Carousel from 'react-material-ui-carousel'; // Import Carousel
+import Carousel from 'react-material-ui-carousel';
 import '../css/movies.css';
 import YouTube from 'react-youtube';
 
@@ -13,6 +13,11 @@ const Movies = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [videos, setVideos] = useState({});
+  const [popularIndex, setPopularIndex] = useState(0);
+  const [upcomingIndex, setUpcomingIndex] = useState(0);
+  const [topRatedIndex, setTopRatedIndex] = useState(0);
+
+  const itemsPerPage = 6; // Number of items to show per page
 
   // Fetch popular, upcoming, and top-rated movies
   const getMovies = async () => {
@@ -71,14 +76,40 @@ const Movies = () => {
     }
   }, [popularMovies, upcomingMovies, topRatedMovies]);
 
+  // Navigation functions
+  const nextPopular = () => {
+    setPopularIndex((prev) => (prev + itemsPerPage) % popularMovies.length);
+  };
+
+  const prevPopular = () => {
+    setPopularIndex((prev) => (prev - itemsPerPage + popularMovies.length) % popularMovies.length);
+  };
+
+  const nextUpcoming = () => {
+    setUpcomingIndex((prev) => (prev + itemsPerPage) % upcomingMovies.length);
+  };
+
+  const prevUpcoming = () => {
+    setUpcomingIndex((prev) => (prev - itemsPerPage + upcomingMovies.length) % upcomingMovies.length);
+  };
+
+  const nextTopRated = () => {
+    setTopRatedIndex((prev) => (prev + itemsPerPage) % topRatedMovies.length);
+  };
+
+  const prevTopRated = () => {
+    setTopRatedIndex((prev) => (prev - itemsPerPage + topRatedMovies.length) % topRatedMovies.length);
+  };
+
   return (
     <div>
       <h2>Movies Page</h2>
       
-      {/* Popular Movies Section with Carousel */}
-      <h3>Popular Movies</h3>
-      <Carousel>
-        {popularMovies.map((movie) => (
+      {/* Popular Movies Section */}
+      <h2>Popular Movies</h2>
+      <div className="movies-section">
+        <button onClick={prevPopular}>◀</button>
+        {popularMovies.slice(popularIndex, popularIndex + itemsPerPage).map((movie) => (
           <div className="movie-card" key={movie.id}>
             <Link
               to="/watch-trailer"
@@ -95,16 +126,16 @@ const Movies = () => {
                 />
               </div>
             </Link>
-            <h3>{movie.title}</h3>
-            <p>{movie.overview}</p>
           </div>
         ))}
-      </Carousel>
+        <button onClick={nextPopular}>▶</button>
+      </div>
 
-      {/* Upcoming Movies Section with Carousel */}
-      <h3>Upcoming Movies</h3>
-      <Carousel>
-        {upcomingMovies.map((movie) => (
+      {/* Upcoming Movies Section */}
+      <h2>Upcoming Movies</h2>
+      <div className="movies-section">
+        <button onClick={prevUpcoming}>◀</button>
+        {upcomingMovies.slice(upcomingIndex, upcomingIndex + itemsPerPage).map((movie) => (
           <div className="movie-card" key={movie.id}>
             <Link
               to="/watch-trailer"
@@ -121,16 +152,16 @@ const Movies = () => {
                 />
               </div>
             </Link>
-            <h3>{movie.title}</h3>
-            <p>{movie.overview}</p>
           </div>
         ))}
-      </Carousel>
+        <button onClick={nextUpcoming}>▶</button>
+      </div>
 
-      {/* Top Rated Movies Section with Carousel */}
-      <h3>Top Rated Movies</h3>
-      <Carousel>
-        {topRatedMovies.map((movie) => (
+      {/* Top Rated Movies Section */}
+      <h2>Top Rated Movies</h2>
+      <div className="movies-section">
+        <button onClick={prevTopRated}>◀</button>
+        {topRatedMovies.slice(topRatedIndex, topRatedIndex + itemsPerPage).map((movie) => (
           <div className="movie-card" key={movie.id}>
             <Link
               to="/watch-trailer"
@@ -147,11 +178,10 @@ const Movies = () => {
                 />
               </div>
             </Link>
-            <h3>{movie.title}</h3>
-            <p>{movie.overview}</p>
           </div>
         ))}
-      </Carousel>
+        <button onClick={nextTopRated}>▶</button>
+      </div>
     </div>
   );
 };
