@@ -1,5 +1,14 @@
 .footer {
+    margin-top: 100px;
     text-align: center;
-    padding: 10px;
-    background-color: midnightblue;
+    background-color: rgb(23, 23, 23);
+    padding: 1px;
+}
+
+.footer h4 {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.pages {
+    margin-top: 20px;
 }

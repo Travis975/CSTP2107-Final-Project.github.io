@@ -70,7 +70,7 @@ const HomePage = () => {
           <div className="mt-16 border-t border-gray-800 pt-8 text-center lg:text-left">
             
             <div className="text-base font-semibold text-gray-400">
-              Ready to watch?   
+              Ready to watch? {' '}   
               <Link to="/signup" className="text-white hover:underline">
                 Sign Up Here
               </Link>
