@@ -52,6 +52,8 @@
 }
 
 .upcoming-header {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
     margin-left: 40px;
 }
 
@@ -96,7 +98,7 @@
 }
 
 .reasons-section {
-    text-align: center;
+    /* text-align: center; */
     background-color: #000; 
     color: white;
     padding: 2rem 1rem;
@@ -105,6 +107,7 @@
 .reasons-section h2 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
+    margin-left: 40px;
 }
 
 .cards {
@@ -148,6 +151,28 @@
 }
 
 
-.FAQ {
+.faq-section {
+    /* margin: 2rem 0; */
+    padding: 1rem;
+    
+}
+
+.faq-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
     margin-left: 40px;
 }
+
+.faq-cards {
+    max-width: 940px;
+    /* Center horizontally */
+    margin: 0 auto; 
+    /* Add padding to prevent content from touching edges */
+    padding: 0 16px; 
+    
+}
+
+.faq-card {
+    background-color: aqua;
+}
+  

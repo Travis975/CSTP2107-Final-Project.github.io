@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/homepage.css';
+import Footer from '../components/Footer';
 
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 
 
@@ -17,6 +17,22 @@ const HomePage = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const moviesToShow = 5; // Number of movies visible at once
+
+  // FAQ Data
+  const FAQs = [
+    {
+      question: "What is Webflix?",
+      answer: `Webflix is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices. You can watch as much as you want, whenever you want. There's always something new to discover and new TV shows and movies are added every week!`,
+    },
+    {
+      question: "How much does Webflix cost?",
+      answer: "Webflix is completely free and always will be, no card required on sign up.",
+    },
+    {
+      question: "Where can I watch?",
+      answer: "You can watch anywhere, anytime, on an unlimited number of devices. Sign in with your Webflix account to watch instantly on the web or on devices like Smart TVs, smartphones, tablets, streaming media players, and game consoles.",
+    },
+  ];
 
   // Fetch upcoming movies
   const getUpcomingMovies = async () => {
@@ -87,7 +103,7 @@ const HomePage = () => {
       </div>
     
       
-
+      {/* Reasons to Join Section */}
       <div class="reasons-section">
         <h2 className='reasons-header'>More Reasons to Join</h2>
         <div class="cards">
@@ -101,14 +117,33 @@ const HomePage = () => {
             </div>
             <div class="card">
                 <h3>Watch everywhere</h3>
-                <p>Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV.</p>
+                <p>Stream limited movies and TV shows on your phone, tablet, laptop, and TV.</p>
             </div>
         </div>
       </div>
 
-      <div className='FAQ'>
-        <h2>FAQ</h2>
+      {/* FAQ Section */}
+      <div className="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div className='faq-cards'>
+        {FAQs.map((faq, index) => (
+          <Accordion key={index}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls={`panel${index}-content`}
+              id={`panel${index}-header`}
+              className='faq-card'
+            >
+              <Typography>{faq.question}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>{faq.answer}</Typography>
+            </AccordionDetails>
+          </Accordion>
+        ))}
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };
