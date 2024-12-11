@@ -88,8 +88,22 @@ const HomePage = () => {
     
       
 
-      <div className='reasons'>
-        <h2>Reasons To Join</h2>
+      <div class="reasons-section">
+        <h2 className='reasons-header'>More Reasons to Join</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Enjoy on your TV</h3>
+                <p>Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.</p>  
+            </div>
+            <div class="card">
+                <h3>Latest movies to browse</h3>
+                <p>Find your new favorites easily and always have something to watch.</p>
+            </div>
+            <div class="card">
+                <h3>Watch everywhere</h3>
+                <p>Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV.</p>
+            </div>
+        </div>
       </div>
 
       <div className='FAQ'>
