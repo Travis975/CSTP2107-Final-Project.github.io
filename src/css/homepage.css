@@ -1,16 +1,20 @@
-/* Home Page Background Image Section */
+/* General Page Styles */
 .home-page {
-    width: 100vw;
+    width: 98.7vw;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    background-color: black;
 }
 
+/* Background Image Section */
 .background-image {
     background-image: url('https://images.pexels.com/photos/276005/pexels-photo-276005.jpeg?auto=compress&cs=tinysrgb&w=600');
     background-size: cover;
     background-position: center;
     position: relative;
     height: 100vh;
+    
 }
-  
+
 .content {
     position: absolute;
     top: 50%;
@@ -19,40 +23,55 @@
     color: white;
     text-align: center;
 }
-  
+
 .heading {
     font-size: 3rem;
     font-weight: bold;
 }
-  
+
 .description {
     font-size: 1.5rem;
 }
-  
-  /* Upcoming Movies Section */
+
+/* Upcoming Movies Section */
 .upcoming-movies-section {
     margin-top: 50px;
-    text-align: center;
+    /* text-align: center; */
 }
-  
+
+.upcoming-header {
+    margin-left: 40px;
+}
+
 .movies-row {
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 20px;
-    overflow: hidden;
 }
-  
+
+.movies-container {
+    display: flex;
+    gap: 15px;
+    overflow: hidden;
+    width: calc(150px * 5 + 60px); /* Adjust based on number of visible movies */
+}
+
 .movie-card {
     width: 150px;
     text-align: center;
 }
-  
+
 .movie-poster {
     width: 100%;
-    height: auto;
     border-radius: 8px;
 }
-  
+
+.movie-title {
+    font-size: 0.9rem;
+    color: white;
+    margin-top: 5px;
+}
+
 .navigate-btn {
     background-color: #333;
     color: white;
@@ -62,4 +81,12 @@
     padding: 10px;
     border-radius: 50%;
     margin: 0 10px;
+}
+
+.reasons {
+    margin-left: 40px;
+}
+
+.FAQ {
+    margin-left: 40px;
 }
