@@ -82,25 +82,32 @@ const HomePage = () => {
 
      
       {/* Upcoming Movies Section */}
-      <div className="upcoming-movies-section">
-        <h2 className='upcoming-header'>Upcoming Movies</h2>
-        <div className="movies-row">
-          <button onClick={handlePrev} className="navigate-btn">◀</button>
-          <div className="movies-container">
+      <div className="upcoming-movies-homepage">
+        <h2 className='upcoming-header-homepage'>Upcoming Movies</h2>
+        <div className="movies-row-homepage">
+          <button onClick={handlePrev} className="navigate-btn-homepage">◀</button>
+          <div className="movies-container-homepage">
             {upcomingMovies.slice(startIndex, startIndex + moviesToShow).map((movie, index) => (
-              <div className="movie-card" key={movie.id}>
+              <div className="movie-data-homepage" key={movie.id}>
                 <img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
-                  className="movie-poster"
+                  className="movie-poster-homepage"
                 />
-                <p className="movie-title">{movie.title}</p>
+                <p className="movie-title-homepage">{movie.title}</p>
+                
+                {/* Movie Details on Hover */}
+                <div className="movie-details-homepage">
+                  <p className="movie-release-date-homepage">Release Date: {movie.release_date}</p>
+                  <p className="movie-description-homepage">{movie.overview}</p>
+                </div>
               </div>
             ))}
           </div>
-          <button onClick={handleNext} className="navigate-btn">▶</button>
+          <button onClick={handleNext} className="navigate-btn-homepage">▶</button>
         </div>
       </div>
+
     
       
       {/* Reasons to Join Section */}

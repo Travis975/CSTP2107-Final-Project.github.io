@@ -1,14 +1,23 @@
+.movie-page {
+  /* margin: 0px;s */
+  /* max-width: 900px; */
+  margin: 40px;
+}
+
 .movies-section {
   display: flex;
   align-items: center;
   justify-content:space-evenly;
-  margin-left: 10px
+  margin-left: 10px;
+  width: calc(150px * 5 + 60px); /* Adjust based on number of visible movies */
 }
 
 .movie-card {
   flex: 0 0 20%; 
   margin: 10px;
   box-sizing: border-box;
+  width: 150px;
+  text-align: center;
   
 }
 

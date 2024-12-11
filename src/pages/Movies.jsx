@@ -120,7 +120,7 @@ const Movies = () => {
   };
 
   return (
-    <div>
+    <div className='movie-page'>
       <h2>Movies Page</h2>
 
       {/* Popular Movies Section */}

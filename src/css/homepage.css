@@ -1,101 +1,62 @@
 /* General Page Styles */
 .home-page {
-    width: 98.7vw;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    background-color: black;
+  width: 98.7vw;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  background-color: black;
 }
 
 /* Background Image Section */
 .background-image {
-    background-image: url('https://media.istockphoto.com/id/2101122136/photo/woman-hand-holding-tv-remote.webp?a=1&b=1&s=612x612&w=0&k=20&c=vAkZOl4nt2KBLEdb60ZZPE8YbPji0P8XKNljlAeykYo=');
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    height: 100vh;
+  background-image: url('https://media.istockphoto.com/id/2101122136/photo/woman-hand-holding-tv-remote.webp?a=1&b=1&s=612x612&w=0&k=20&c=vAkZOl4nt2KBLEdb60ZZPE8YbPji0P8XKNljlAeykYo=');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  height: 100vh;
     
 }
 
 .background-image::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity to darken */
-    z-index: 1;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity to darken */
+  z-index: 1;
 }
 
 .content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    text-align: center;
-    z-index: 2; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  z-index: 2; 
 }
 
 .heading {
-    font-size: 3rem;
-    font-weight: bold;
+  font-size: 3rem;
+  font-weight: bold;
 }
 
 .description {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 /* Upcoming Movies Section */
 .upcoming-movies-section {
-    margin-top: 50px;
-    /* text-align: center; */
+  margin-top: 50px;
+  /* text-align: center; */
 }
 
 .upcoming-header {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    margin-left: 40px;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  margin-left: 40px;
 }
 
-.movies-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.movies-container {
-    display: flex;
-    gap: 15px;
-    overflow: hidden;
-    width: calc(150px * 5 + 60px); /* Adjust based on number of visible movies */
-}
-
-.movie-card {
-    width: 150px;
-    text-align: center;
-}
-
-.movie-poster {
-    width: 100%;
-    border-radius: 8px;
-}
-
-.movie-title {
-    font-size: 0.9rem;
-    color: white;
-    margin-top: 5px;
-}
-
-.navigate-btn {
-    background-color: #333;
-    color: white;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    margin: 0 10px;
-}
 
 .reasons-section {
     /* text-align: center; */
