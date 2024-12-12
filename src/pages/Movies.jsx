@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/movies.css';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import MovieDialog from '../components/MovieDialog'; // Import the MovieDialog component
+import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
+import Navbar from '../components/Navbar'; 
 
 const popularMovieURL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
 const upcomingMovieURL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
@@ -130,6 +127,10 @@ const Movies = () => {
     setSelectedMovie(null);
   };
 
+  const favoritesRef = useRef(null);
+  const watchlaterRef = useRef(null);
+
+
   return (
     <div className='movie-page'>
       <h2>Movies Page</h2>
@@ -224,14 +225,20 @@ const Movies = () => {
         <button onClick={nextTopRated}>▶</button>
       </div>
 
-      {/* Favorite Movies Section */}
-      <h2>Favorite Movies</h2>
-      <div className="movies-section">
+      <div>
+        <h2>Favorite Movies</h2>
+        <div ref={favoritesRef} className="movies-section">
+          {/* Your favorite movies content here */}
+        </div>
+
+        <h2>Watchlist</h2>
+        <div ref={watchlaterRef} className="movies-section">
+          {/* Your watchlist content here */}
+        </div>
       </div>
 
-      <h2>Watchlist</h2>
-      <div className="movies-section">
-      </div>
+      <Navbar favoritesRef={favoritesRef} watchlaterRef={watchlaterRef} />
+
 
 
       {/* Hover Feature*/}

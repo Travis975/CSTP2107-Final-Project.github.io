@@ -1,5 +1,6 @@
 import React from 'react';
-import { Dialog, DialogContent, Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
+import { Dialog, DialogContent, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 const MovieDialog = ({ selectedMovie, openDialog, handleMouseLeave, dialogPosition, scrollPosition }) => (
   selectedMovie && (
@@ -32,8 +33,12 @@ const MovieDialog = ({ selectedMovie, openDialog, handleMouseLeave, dialogPositi
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+          <Tooltip title="Add to favorites">
+            <Button size="small">Favorite</Button>
+            </Tooltip>
+            <Tooltip title="Add to watchlist">
+              <Button size="small"><AddIcon /></Button>
+              </Tooltip>
           </CardActions>
         </Card>
       </DialogContent>

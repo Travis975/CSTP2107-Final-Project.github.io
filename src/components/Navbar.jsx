@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AppBar, Box, Menu, MenuItem, Toolbar } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { auth } from '../firebaseConfig';
 import logo from '../assets/logo.png';
 import userlogo from '../assets/user.png';
 
-const Navbar = () => {
+const Navbar = ({ favoritesRef, watchlaterRef }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [user, setUser] = useState(null);
@@ -29,12 +29,13 @@ const Navbar = () => {
         }
     };
 
-    const handleLogoClick = (event) => {
-        event.stopPropagation();
+    const handleLogoClick = () => {
         if (
             location.pathname === '/' ||
             location.pathname === '/signin' ||
-            location.pathname === '/signup'
+            location.pathname === '/signup' ||
+            location.pathname === '/privacy-policy' ||
+            location.pathname === '/terms-and-conditions' 
         ) {
             navigate('/');
         } else if (
@@ -52,24 +53,6 @@ const Navbar = () => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleUserLogoClick = (event) => {
-        event.stopPropagation();
-        if (
-            location.pathname === '/' ||
-            location.pathname === '/signin' ||
-            location.pathname === '/signup'
-        ) {
-            navigate('/');
-        } else if (
-            location.pathname === '/movies' ||
-            location.pathname === '/watch-trailer' ||
-            location.pathname === '/account' ||
-            location.pathname === '/favourites' ||
-            location.pathname === '/watchlater'
-        ) {
-            navigate('/movies');
-        }
-    };
 
     const handleCloseDropdown = () => {
         setAnchorEl(null);
@@ -79,6 +62,22 @@ const Navbar = () => {
         navigate(route);
         handleCloseDropdown();
     };
+
+    const handleDivNavigation = (route) => {
+        navigate(`/movies#${route}`);
+        setTimeout(() => {
+          if (route === 'favorites' && favoritesRef) {
+            favoritesRef.current.scrollIntoView({ behavior: 'smooth' });
+          } else if (route === 'watchlater' && watchlaterRef) {
+            watchlaterRef.current.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      };
+    
+      
+      
+
+    
 
     return (
         <AppBar
@@ -114,7 +113,6 @@ const Navbar = () => {
                             marginRight: '25px',
                             marginTop: '5px',
                         }}
-                        onClick={handleUserLogoClick}
                         onMouseEnter={handleUserLogoHover}
                     />
 
@@ -126,11 +124,14 @@ const Navbar = () => {
                             onMouseLeave: handleCloseDropdown,
                         }}
                     >
-                        <MenuItem onClick={() => handleNavigation('/favourites')}>
-                            Favourite Movies
+                        <MenuItem onClick={() => handleNavigation('/account')}>
+                            My Account
                         </MenuItem>
-                        <MenuItem onClick={() => handleNavigation('/watchlater')}>
-                            Watch Later
+                        <MenuItem onClick={() => handleDivNavigation('favorites')}>
+                        Favorite Movies
+                        </MenuItem>
+                        <MenuItem onClick={() => handleDivNavigation('watchlater')}>
+                        Watch Later
                         </MenuItem>
                         <MenuItem onClick={handleSignout}>Sign Out</MenuItem>
                     </Menu>
