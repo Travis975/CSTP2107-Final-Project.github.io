@@ -11,7 +11,7 @@ import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import ProfilePictureChanger from "../components/ProfilePictureChanger";
 import ColorPickerDialog from "../components/ColorPickerDialog";
-import MovieDialog from "../components/MovieDialog";
+// import MovieDialog from "../components/MovieDialog";
 import MovieCard from "../components/MovieCard"; 
 import "../css/account.css";
 

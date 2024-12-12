@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
-import MovieCard from "../components/MovieCard";
-import Navbar from "../components/Navbar";
-import Carousel from "../components/Carousel";
 import "../css/movies.css";
 
 const Movies = () => {
   const [popularMovies, setPopularMovies] = useState([]);
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [videos, setVideos] = useState({});
   const [favorites, setFavorites] = useState([]);
   const [watchlater, setWatchlater] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [upcomingIndex, setUpcomingIndex] = useState(0);
   const [topRatedIndex, setTopRatedIndex] = useState(0);
 
   const itemsPerPage = 6;
+  const slideCount = popularMovies.length;
 
   const fetchMovies = async (url, setMovies) => {
     try {
@@ -68,43 +66,233 @@ const Movies = () => {
     }
   };
 
-  const renderSection = (title, movies, index, setIndex) => (
-    <div>
-      <h2>{title}</h2>
-      <div className="movies-section">
-        <button onClick={() => scroll(movies, setIndex, "prev")}>◀</button>
-        {movies
-          .slice(index, index + itemsPerPage)
-          .concat(movies.slice(0, Math.max(0, index + itemsPerPage - movies.length)))
-          .map((movie) => (
-            <MovieCard
-              key={movie.id}
-              movie={movie}
-              favorites={favorites}
-              watchlater={watchlater}
-              setFavorites={setFavorites}
-              setWatchlater={setWatchlater}
-              videos={videos}
-            />
-          ))}
-        <button onClick={() => scroll(movies, setIndex, "next")}>▶</button>
-      </div>
-    </div>
-  );
+  const nextSlide = () => {
+    if (slideCount > 0) {
+      setCurrentSlide((prev) => (prev + 1) % slideCount);
+    }
+  };
+
+  const prevSlide = () => {
+    if (slideCount > 0) {
+      setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
+    }
+  };
+
+  useEffect(() => {
+    if (slideCount === 0) return;
+
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [slideCount]);
 
   return (
     <div className="movie-page">
-      <Carousel
-        movies={popularMovies}
-        favorites={favorites}
-        watchlater={watchlater}
-        setFavorites={setFavorites}
-        setWatchlater={setWatchlater}
-        videos={videos}
-      />
-      {renderSection("Upcoming Movies", upcomingMovies, upcomingIndex, setUpcomingIndex)}
-      {renderSection("Top Rated Movies", topRatedMovies, topRatedIndex, setTopRatedIndex)}
-      <Navbar />
+      {/* Carousel */}
+      <div className="relative w-full max-w-7xl mx-auto overflow-hidden">
+        <div
+          className="flex transition-transform duration-500"
+          style={{
+            transform: `translateX(-${currentSlide * 100}%)`,
+          }}
+        >
+          {popularMovies.map((movie) => (
+            <div key={movie.id} className="min-w-full-movie-page">
+              <div className="image-container-movie-page">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  className="movie-poster"
+                />
+              </div>
+              <div className="hover-actions-movie-page">
+                {!favorites.some((fav) => fav.id === movie.id) ? (
+                  <button
+                    onClick={() => {
+                      setFavorites((prev) => [...prev, movie]);
+                    }}
+                  >
+                    Add to Favorites
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setFavorites((prev) => prev.filter((fav) => fav.id !== movie.id));
+                    }}
+                  >
+                    Remove from Favorites
+                  </button>
+                )}
+                {!watchlater.some((later) => later.id === movie.id) ? (
+                  <button
+                    onClick={() => {
+                      setWatchlater((prev) => [...prev, movie]);
+                    }}
+                  >
+                    Add to Watch Later
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setWatchlater((prev) => prev.filter((later) => later.id !== movie.id));
+                    }}
+                  >
+                    Remove from Watch Later
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation buttons */}
+        <button
+          onClick={prevSlide}
+          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600 transition-all z-10"
+        >
+          ◀
+        </button>
+        <button
+          onClick={nextSlide}
+          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600 transition-all z-10"
+        >
+          ▶
+        </button>
+
+        {/* Progress indicators */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {popularMovies.map((_, index) => (
+            <div
+              key={index}
+              className={`h-2 w-2 rounded-full ${
+                currentSlide === index ? "bg-gray-800" : "bg-gray-400"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Upcoming Movies */}
+      <div>
+        <h2>Upcoming Movies</h2>
+        <div className="movies-section-movie-page">
+          <button onClick={() => scroll(upcomingMovies, setUpcomingIndex, "prev")}>◀</button>
+          {upcomingMovies
+            .slice(upcomingIndex, upcomingIndex + itemsPerPage)
+            .concat(
+              upcomingMovies.slice(0, Math.max(0, upcomingIndex + itemsPerPage - upcomingMovies.length))
+            )
+            .map((movie) => (
+              <div key={movie.id} className="movie-box">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  className="movie-poster"
+                />
+                <div className="movie-title-movie-page">{movie.title}</div>
+                <div className="hover-actions-movie-page">
+                  {!favorites.some((fav) => fav.id === movie.id) ? (
+                    <button
+                      onClick={() => {
+                        setFavorites((prev) => [...prev, movie]);
+                      }}
+                    >
+                      Add to Favorites
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setFavorites((prev) => prev.filter((fav) => fav.id !== movie.id));
+                      }}
+                    >
+                      Remove from Favorites
+                    </button>
+                  )}
+                  {!watchlater.some((later) => later.id === movie.id) ? (
+                    <button
+                      onClick={() => {
+                        setWatchlater((prev) => [...prev, movie]);
+                      }}
+                    >
+                      Add to Watch Later
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setWatchlater((prev) => prev.filter((later) => later.id !== movie.id));
+                      }}
+                    >
+                      Remove from Watch Later
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          <button onClick={() => scroll(upcomingMovies, setUpcomingIndex, "next")}>▶</button>
+        </div>
+      </div>
+
+      {/* Top Rated Movies */}
+      <div>
+        <h2>Top Rated Movies</h2>
+        <div className="movies-section-movie-page">
+          <button onClick={() => scroll(topRatedMovies, setTopRatedIndex, "prev")}>◀</button>
+          {topRatedMovies
+            .slice(topRatedIndex, topRatedIndex + itemsPerPage)
+            .concat(
+              topRatedMovies.slice(0, Math.max(0, topRatedIndex + itemsPerPage - topRatedMovies.length))
+            )
+            .map((movie) => (
+              <div key={movie.id} className="movie-box">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  className="movie-poster"
+                />
+                <div className="movie-title">{movie.title}</div>
+                <div className="hover-actions">
+                  {!favorites.some((fav) => fav.id === movie.id) ? (
+                    <button
+                      onClick={() => {
+                        setFavorites((prev) => [...prev, movie]);
+                      }}
+                    >
+                      Add to Favorites
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setFavorites((prev) => prev.filter((fav) => fav.id !== movie.id));
+                      }}
+                    >
+                      Remove from Favorites
+                    </button>
+                  )}
+                  {!watchlater.some((later) => later.id === movie.id) ? (
+                    <button
+                      onClick={() => {
+                        setWatchlater((prev) => [...prev, movie]);
+                      }}
+                    >
+                      Add to Watch Later
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setWatchlater((prev) => prev.filter((later) => later.id !== movie.id));
+                      }}
+                    >
+                      Remove from Watch Later
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          <button onClick={() => scroll(topRatedMovies, setTopRatedIndex, "next")}>▶</button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../css/movieCard.css";
+import "../css/moviecard.css";
 import {
   addMovieToFavorites,
   removeMovieFromFavorites,
