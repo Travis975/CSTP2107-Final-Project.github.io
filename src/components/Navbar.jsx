@@ -30,9 +30,24 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
     };
 
     const handleLogoClick = () => {
-        navigate('/');
+        if (
+            location.pathname === '/' ||
+            location.pathname === '/signin' ||
+            location.pathname === '/signup' ||
+            location.pathname === '/privacy-policy' ||
+            location.pathname === '/terms-and-conditions' 
+        ) {
+            navigate('/');
+        } else if (
+            location.pathname === '/movies' ||
+            location.pathname === '/watch-trailer' ||
+            location.pathname === '/account' ||
+            location.pathname === '/favourites' ||
+            location.pathname === '/watchlater'
+        ) {
+            navigate('/movies');
+        }
     };
-
     const handleUserLogoHover = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -121,39 +136,43 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                         </>
                     ) : (
                         <>
-                            <img
-                                src={userlogo}
-                                alt="User Logo"
-                                style={{
-                                    height: 45,
-                                    cursor: 'pointer',
-                                    marginRight: '25px',
-                                    marginTop: '5px',
-                                }}
-                                onMouseEnter={handleUserLogoHover}
-                            />
-                            <Menu
-                                anchorEl={anchorEl}
-                                open={Boolean(anchorEl)}
-                                onClose={handleCloseDropdown}
-                                MenuListProps={{
-                                    onMouseLeave: handleCloseDropdown,
-                                }}
-                            >
-                                <MenuItem onClick={() => handleNavigation('/account')}>
-                                    My Account
-                                </MenuItem>
-                                <MenuItem onClick={() => handleDivNavigation('favorites')}>
+                            <Box>
+                                <img
+                                    src={userlogo}
+                                    alt="User Logo"
+                                    style={{
+                                        height: 45,
+                                        cursor: 'pointer',
+                                        marginRight: '25px',
+                                        marginTop: '5px',
+                                    }}
+                                    onMouseEnter={handleUserLogoHover}
+                                />
+
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleCloseDropdown}
+                                    MenuListProps={{
+                                        onMouseLeave: handleCloseDropdown,
+                                    }}
+                                >
+                                    <MenuItem onClick={() => handleNavigation('/account')}>
+                                        My Account
+                                    </MenuItem>
+                                    <MenuItem onClick={() => handleDivNavigation('favorites')}>
                                     Favorite Movies
-                                </MenuItem>
-                                <MenuItem onClick={() => handleDivNavigation('watchlater')}>
+                                    </MenuItem>
+                                    <MenuItem onClick={() => handleDivNavigation('watchlater')}>
                                     Watch Later
-                                </MenuItem>
-                                <MenuItem onClick={handleSignout}>Sign Out</MenuItem>
-                            </Menu>
-                        </>
-                    )}
-                </Box>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleSignout}>Sign Out</MenuItem>
+                                </Menu>
+                            </Box>
+
+                                    </>
+                                )}
+                            </Box>
             </Toolbar>
         </AppBar>
     );
