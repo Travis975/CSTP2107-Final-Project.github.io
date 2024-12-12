@@ -1,0 +1,46 @@
+.terms-and-conditions {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 320px;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    background-color: #1e1e2e;
+    color: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.terms-and-conditions h1 {
+    font-size: 2.5rem;
+    color: #ffd700;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px; 
+}
+
+.terms-and-conditions p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #add8e6;
+    margin-bottom: 15px;
+}
+
+.terms-and-conditions > * {
+    flex: 1;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .terms-and-conditions h1 {
+        font-size: 2rem;
+    }
+
+    .terms-and-conditions p {
+        font-size: 1rem;
+        text-align: center;
+    }
+}

@@ -1,5 +1,6 @@
 import { Typography, Box, Container } from "@mui/material";
 import Navbar from "../components/Navbar"; // Existing local Navbar component
+import "../css/privacyPolicy.css"
 
 const PrivacyPolicy = () => {
   return (
@@ -16,6 +17,7 @@ const PrivacyPolicy = () => {
           padding: "20px",
           boxSizing: "border-box",
         }}
+        className="privacy-policy"
       >
         <Box sx={{ mb: 4 }}>
           <Typography

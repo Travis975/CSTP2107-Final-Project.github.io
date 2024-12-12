@@ -112,18 +112,18 @@ const HomePage = () => {
     
       
       {/* Reasons to Join Section */}
-      <div class="reasons-section">
+      <div className="reasons-section">
         <h2 className='reasons-header'>More Reasons to Join</h2>
-        <div class="cards">
-            <div class="card">
+        <div className="cards">
+            <div className="card">
                 <h3>Enjoy on your TV</h3>
                 <p>Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.</p>  
             </div>
-            <div class="card">
+            <div className="card">
                 <h3>Latest movies to browse</h3>
                 <p>Find your new favorites easily and always have something to watch.</p>
             </div>
-            <div class="card">
+            <div className="card">
                 <h3>Watch everywhere</h3>
                 <p>Stream limited movies and TV shows on your phone, tablet, laptop, and TV.</p>
             </div>

@@ -1,5 +1,6 @@
 import { Typography, Box, Container } from "@mui/material";
-import Navbar from "../components/Navbar"; // Existing local Navbar component
+import Navbar from "../components/Navbar";
+import "../css/termsAndConditions.css";
 
 const TermsAndConditions = () => {
   return (
@@ -16,6 +17,7 @@ const TermsAndConditions = () => {
           padding: "20px",
           boxSizing: "border-box",
         }}
+        className="terms-and-conditions"
       >
         <Box sx={{ mb: 4 }}>
           <Typography

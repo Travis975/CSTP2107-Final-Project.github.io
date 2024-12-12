@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Box, Button, Typography, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
+import { auth, db } from '../firebaseConfig'; 
+import { doc, getDoc, updateDoc } from 'firebase/firestore'; // Added updateDoc for default username assignment
 import { Link, useNavigate } from 'react-router-dom';
 import Alert from '../components/Alert';
 import { getErrorCode } from '../utils';
@@ -18,16 +19,47 @@ const SignInPage = () => {
   const navigate = useNavigate();
   const [_currentUser, setCurrentUser] = useLocalStorage('current_user', null);
 
+  const isUsername = (input) => {
+    const usernameRegex = /^[a-zA-Z0-9$#%&_\\-]{2,20}$/; 
+    return usernameRegex.test(input);
+  };
+
+  const resolveEmailFromUsername = async (username) => {
+    try {
+      const usernameDoc = await getDoc(doc(db, 'usernames', username.toLowerCase()));
+      if (usernameDoc.exists()) {
+        return usernameDoc.data().email; // Return the associated email
+      } else {
+        throw new Error('Username not found');
+      }
+    } catch (error) {
+      console.error('Error resolving username to email: ', error);
+      throw error;
+    }
+  };
+
   const handleSignin = async () => {
     try {
-      const { user } = await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
+      let email = credentials.email;
+      if (isUsername(email)) {
+        email = await resolveEmailFromUsername(email);
+      }
+
+      const { user } = await signInWithEmailAndPassword(auth, email, credentials.password);
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      if (!userDoc.exists() || !userDoc.data().username) {
+        await assignDefaultUsername(user.uid, user.email);
+      }
+
       setAlertConfig({ message: 'Successfully Signed in', color: 'success', isOpen: true });
       setCurrentUser(user);
       setTimeout(() => {
         navigate('/Movies');
       }, 2000);
     } catch (error) {
-      const message = getErrorCode(error.code);
+      const message = error.message === 'Username not found' 
+        ? 'Invalid username or email' 
+        : getErrorCode(error.code);
       setAlertConfig({ message, color: 'error', isOpen: true });
     }
   };
@@ -50,9 +82,9 @@ const SignInPage = () => {
         <TextField
           required
           id="email"
-          label="Email"
-          placeholder="Enter your email"
-          type="email"
+          label="Username or Email"
+          placeholder="Enter your username or email"
+          type="text"
           value={credentials.email}
           onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
           className="signin-textfield"
@@ -107,9 +139,7 @@ const SignInPage = () => {
           </DialogActions>
         </Dialog>
       </Box>
-
     </div>
-    
   );
 };
 

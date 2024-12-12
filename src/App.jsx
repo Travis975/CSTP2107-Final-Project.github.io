@@ -51,7 +51,6 @@ function App() {
       path: "*",
       element: <NotFoundPage />
     }
-
   ]);
 
   return (
