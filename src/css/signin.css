@@ -15,7 +15,10 @@
     border: 1px solid black;
     padding: 40px;
     border-radius: 12px;
-    box-sizing: border-box;
+    width: 400px;
+    margin: 50px auto; /* Center the box on the page */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
 }
 
 /* Typography styles */
@@ -23,6 +26,7 @@
     font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
+    color: black;
 }
 
 /* TextField styles */
@@ -32,7 +36,10 @@
 
 /* Button styles */
 .signin-button {
-    margin-top: 16px;
+    background-color: #1976d2;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .forgot-password {
@@ -49,7 +56,7 @@
 .signup-link {
     text-align: center;
     margin-top: 16px;
-    color: white;
+    color: #1976d2;
     text-decoration: none;
 }
 

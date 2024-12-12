@@ -1,0 +1,63 @@
+/* signup.css */
+.signup-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+    width: 100vw;
+    margin: 0;
+    background-color: #1a1a1a; /* Matches the dark background */
+}
+
+/* General styles for the signup container */
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid black;
+    padding: 40px;
+    border-radius: 12px;
+    width: 400px;
+    margin: 50px auto; /* Center the box on the page */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+  
+  /* Typography for the title */
+.signup-title {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  /* Style for input fields */
+.signup-container .MuiTextField-root {
+    margin-bottom: 16px;
+}
+  
+  /* Signup button styling */
+.signup-button {
+    background-color: #1976d2;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+  
+.signup-button:hover {
+    background-color: #115293;
+}
+  
+  /* Link to signin */
+.signin-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #1976d2;
+    text-decoration: none;
+}
+  
+.signin-link:hover {
+    text-decoration: underline;
+}
+  

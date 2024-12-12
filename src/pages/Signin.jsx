@@ -67,7 +67,7 @@ const SignInPage = () => {
           onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
           className="signin-textfield"
         />
-        <Button onClick={handleSignin} variant="contained" color="secondary">
+        <Button onClick={handleSignin} variant="contained" >
           Signin
         </Button>
         <Typography
