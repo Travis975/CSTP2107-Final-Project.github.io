@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/movies.css';
-import MovieDialog from '../components/MovieDialog'; // Import the MovieDialog component
-import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import MovieDialog from '../components/MovieDialog'; 
+import { collection, onSnapshot } from "firebase/firestore";
+import { auth, db } from "../firebaseConfig"; 
 import Navbar from '../components/Navbar'; 
 
 const popularMovieURL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
@@ -15,19 +15,19 @@ const Movies = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [videos, setVideos] = useState({});
+  const [favorites, setFavorites] = useState([]);
+  const [watchlater, setWatchlater] = useState([]);
   const [popularIndex, setPopularIndex] = useState(0);
   const [upcomingIndex, setUpcomingIndex] = useState(0);
   const [topRatedIndex, setTopRatedIndex] = useState(0);
 
-  // States for hover feature
   const [openDialog, setOpenDialog] = useState(false); 
   const [selectedMovie, setSelectedMovie] = useState(null); 
   const [dialogPosition, setDialogPosition] = useState({ top: 0, left: 0 }); 
   const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
 
-  const itemsPerPage = 6; // Number of items to show per page
+  const itemsPerPage = 6;
 
-  // Fetch movies
   const getMovies = async () => {
     try {
       const popularResponse = await fetch(popularMovieURL);
@@ -46,7 +46,6 @@ const Movies = () => {
     }
   };
 
-  // Fetch videos for a specific movie
   const getVideos = async (movieId) => {
     try {
       const response = await fetch(
@@ -83,7 +82,22 @@ const Movies = () => {
     };
   }, []);
 
-  // Navigation functions
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+      const favoritesRef = collection(db, "users", user.uid, "favorites");
+      const watchlaterRef = collection(db, "users", user.uid, "watchlater");
+
+      onSnapshot(favoritesRef, (snapshot) => {
+        setFavorites(snapshot.docs.map(doc => doc.data()));
+      });
+
+      onSnapshot(watchlaterRef, (snapshot) => {
+        setWatchlater(snapshot.docs.map(doc => doc.data()));
+      });
+    }
+  }, []);
+
   const nextPopular = () => {
     setPopularIndex((prev) => (prev + itemsPerPage) % popularMovies.length);
   };
@@ -108,13 +122,11 @@ const Movies = () => {
     setTopRatedIndex((prev) => (prev - itemsPerPage + topRatedMovies.length) % topRatedMovies.length);
   };
 
-  // Movies to show
   const getMoviesToShow = (movies, index) => {
     const end = index + itemsPerPage;
     return movies.slice(index, end).concat(movies.slice(0, Math.max(0, end - movies.length)));
   };
 
-  // Show dialog with movie details
   const handleMouseEnter = (movie, event) => {
     const rect = event.currentTarget.getBoundingClientRect();
     setDialogPosition({ top: rect.top + window.scrollY, left: rect.left + window.scrollX });
@@ -127,15 +139,10 @@ const Movies = () => {
     setSelectedMovie(null);
   };
 
-  const favoritesRef = useRef(null);
-  const watchlaterRef = useRef(null);
-
-
   return (
-    <div className='movie-page'>
+    <div className="movie-page">
       <h2>Movies Page</h2>
 
-      {/* Popular Movies Section */}
       <h2>Popular Movies</h2>
       <div className="movies-section">
         <button onClick={prevPopular}>◀</button>
@@ -165,7 +172,6 @@ const Movies = () => {
         <button onClick={nextPopular}>▶</button>
       </div>
 
-      {/* Upcoming Movies Section */}
       <h2>Upcoming Movies</h2>
       <div className="movies-section">
         <button onClick={prevUpcoming}>◀</button>
@@ -195,7 +201,6 @@ const Movies = () => {
         <button onClick={nextUpcoming}>▶</button>
       </div>
 
-      {/* Top Rated Movies Section */}
       <h2>Top Rated Movies</h2>
       <div className="movies-section">
         <button onClick={prevTopRated}>◀</button>
@@ -225,29 +230,58 @@ const Movies = () => {
         <button onClick={nextTopRated}>▶</button>
       </div>
 
-      <div>
-        <h2>Favorite Movies</h2>
-        <div ref={favoritesRef} className="movies-section">
-          {/* Your favorite movies content here */}
+      <h2>Your Favorites</h2>
+      <div className="movies-section">
+        {favorites.map((movie) => (
+          <div
+          className="movie-card"
+          key={movie.id}
+          onMouseEnter={(event) => handleMouseEnter(movie, event)}
+        >
+          <Link
+            to="/watch-trailer"
+            state={{
+              videoId: videos[movie.id] && videos[movie.id][0]?.key,
+              movieTitle: movie.title,
+            }}
+          >
+            <div className="image-container">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                className="movie-poster"
+              />
+            </div>
+          </Link>
         </div>
-
-        <h2>Watchlist</h2>
-        <div ref={watchlaterRef} className="movies-section">
-          {/* Your watchlist content here */}
-        </div>
+        ))}
       </div>
 
-      <Navbar favoritesRef={favoritesRef} watchlaterRef={watchlaterRef} />
+      <h2>Your Watch Later List</h2>
+      <div className="movies-section" >
+        {watchlater.map((movie) => (
+          <div key={movie.id} className="movie-card" onMouseEnter={() => handleMouseEnter(movie)} onMouseLeave={handleMouseLeave}>
+            <img
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+              className="movie-poster"
+            />
+            <div>{movie.title}</div>
+          </div>
+        ))}
+      </div>
 
-
-
-      {/* Hover Feature*/}
+      <Navbar />
       <MovieDialog
         selectedMovie={selectedMovie}
         openDialog={openDialog}
         handleMouseLeave={handleMouseLeave}
         dialogPosition={dialogPosition}
         scrollPosition={scrollPosition}
+        favorites={favorites}
+        watchlater={watchlater}
+        setFavorites={setFavorites}
+        setWatchlater={setWatchlater}
       />
     </div>
   );

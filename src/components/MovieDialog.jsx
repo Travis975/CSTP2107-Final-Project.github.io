@@ -1,66 +1,80 @@
 import React from 'react';
-import { Dialog, DialogContent, Card, CardMedia, CardContent, Typography, CardActions, Button, Tooltip } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { useNavigate } from 'react-router-dom';
+import '../css/movieDialog.css';
+import { 
+  addMovieToFavorites, 
+  addMovieToWatchlater, 
+  removeMovieFromFavorites, 
+  removeMovieFromWatchlater 
+} from '../firebaseFunctions'; // Ensure remove functions are imported
 
-const MovieDialog = ({ selectedMovie, openDialog, handleMouseLeave, dialogPosition, scrollPosition }) => {
-  const navigate = useNavigate();
+const MovieDialog = ({
+  selectedMovie,
+  openDialog,
+  handleMouseLeave,
+  dialogPosition,
+  scrollPosition,
+  favorites,
+  watchlater,
+  setFavorites, // Passed down from parent to update state
+  setWatchlater, // Passed down from parent to update state
+}) => {
+  if (!selectedMovie || !openDialog) return null;
 
-  const handleCardMediaClick = () => {
-    navigate('/watch-trailer', {
-      state: {
-        videoId: String(selectedMovie.videoId), // Ensure videoId is a string
-        movieTitle: selectedMovie.title,
-      },
-    });
+  const isFavorite = favorites.some((movie) => movie.id === selectedMovie.id);
+  const isWatchLater = watchlater.some((movie) => movie.id === selectedMovie.id);
+
+  const handleAddToFavorites = async () => {
+    await addMovieToFavorites(selectedMovie);
+    setFavorites((prev) => [...prev, selectedMovie]); // Update local state to trigger re-render
+  };
+
+  const handleAddToWatchLater = async () => {
+    await addMovieToWatchlater(selectedMovie);
+    setWatchlater((prev) => [...prev, selectedMovie]); // Update local state to trigger re-render
+  };
+
+  const handleRemoveFromFavorites = async () => {
+    await removeMovieFromFavorites(selectedMovie);
+    setFavorites((prev) => prev.filter((movie) => movie.id !== selectedMovie.id)); // Update local state
+  };
+
+  const handleRemoveFromWatchLater = async () => {
+    await removeMovieFromWatchlater(selectedMovie);
+    setWatchlater((prev) => prev.filter((movie) => movie.id !== selectedMovie.id)); // Update local state
   };
 
   return (
-    selectedMovie && (
-      <Dialog
-        open={openDialog}
-        onClose={handleMouseLeave}
-        PaperProps={{
-          style: {
-            position: 'absolute',
-            top: dialogPosition.top - scrollPosition.y - 20,
-            left: dialogPosition.left - scrollPosition.x,
-            margin: 0,
-            cursor: 'pointer',
-          },
-        }}
-      >
-        <DialogContent onMouseLeave={() => handleMouseLeave()}>
-          <Card sx={{ maxWidth: 250 }}>
-            <CardMedia
-              sx={{ height: 275 }}
-              image={`https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`}
-              title={selectedMovie.title}
-              onClick={handleCardMediaClick}
-              style={{ cursor: 'pointer' }}
-            />
-            <CardContent>
-              <Typography paddingBottom={2} variant="h5" component="div">
-                {selectedMovie.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {selectedMovie.overview.substring(0, 150) + '...'}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Tooltip title="Add to favorites">
-                <Button size="small">Favorite</Button>
-              </Tooltip>
-              <Tooltip title="Add to watchlist">
-                <Button size="small">
-                  <AddIcon />
-                </Button>
-              </Tooltip>
-            </CardActions>
-          </Card>
-        </DialogContent>
-      </Dialog>
-    )
+    <div
+      className="movie-dialog"
+      style={{
+        top: dialogPosition.top - scrollPosition.y + 'px',
+        left: dialogPosition.left + 'px',
+      }}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="movie-dialog-content">
+        <h3>{selectedMovie.title}</h3>
+        <p>{selectedMovie.overview}</p>
+        <img
+          src={`https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`}
+          alt={selectedMovie.title}
+        />
+        <div className="movie-dialog-buttons">
+          {!isFavorite && (
+            <button onClick={handleAddToFavorites}>Add to Favorites</button>
+          )}
+          {isFavorite && (
+            <button onClick={handleRemoveFromFavorites}>Remove from Favorites</button>
+          )}
+          {!isWatchLater && (
+            <button onClick={handleAddToWatchLater}>Add to Watch Later</button>
+          )}
+          {isWatchLater && (
+            <button onClick={handleRemoveFromWatchLater}>Remove from Watch Later</button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 
