@@ -13,32 +13,33 @@ import Typography from '@mui/material/Typography';
 
 const upcomingMovieURL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
 
+// FAQ Data
+const FAQs = [
+  {
+    question: "What is Webflix?",
+    answer: `Webflix is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices. You can watch as much as you want, whenever you want. There's always something new to discover and new TV shows and movies are added every week!`,
+  },
+  {
+    question: "How much does Webflix cost?",
+    answer: "Webflix is completely free and always will be, no card required on sign up.",
+  },
+  {
+    question: "Where can I watch?",
+    answer: "You can watch anywhere, anytime, on an unlimited number of devices. Sign in with your Webflix account to watch instantly on the web or on devices like Smart TVs, smartphones, tablets, streaming media players, and game consoles.",
+  },
+];
+
 const HomePage = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const moviesToShow = 5; // Number of movies visible at once
-
-  // FAQ Data
-  const FAQs = [
-    {
-      question: "What is Webflix?",
-      answer: `Webflix is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices. You can watch as much as you want, whenever you want. There's always something new to discover and new TV shows and movies are added every week!`,
-    },
-    {
-      question: "How much does Webflix cost?",
-      answer: "Webflix is completely free and always will be, no card required on sign up.",
-    },
-    {
-      question: "Where can I watch?",
-      answer: "You can watch anywhere, anytime, on an unlimited number of devices. Sign in with your Webflix account to watch instantly on the web or on devices like Smart TVs, smartphones, tablets, streaming media players, and game consoles.",
-    },
-  ];
 
   // Fetch upcoming movies
   const getUpcomingMovies = async () => {
     try {
       const response = await fetch(upcomingMovieURL);
       const data = await response.json();
+      console.log(data);
       setUpcomingMovies(data.results.slice(0, 10)); // Top 10 movies
     } catch (error) {
       console.error(error);
@@ -98,7 +99,7 @@ const HomePage = () => {
                 
                 {/* Movie Details on Hover */}
                 <div className="movie-details-homepage">
-                  <p className="movie-release-date-homepage">Release Date: {movie.release_date}</p>
+                  <p className="movie-release-date-homepage">Average Rating: {movie.vote_average.toFixed(2)} / 10</p>
                   <p className="movie-description-homepage">{movie.overview}</p>
                 </div>
               </div>

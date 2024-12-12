@@ -48,20 +48,21 @@
 /* Upcoming Movies Section */
 .upcoming-movies-homepage {
   padding: 20px;
-  text-align: center;
+  
 }
 
 .upcoming-header-homepage {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 20px;
+  margin-left: 40px;
 }
 
 .movies-row-homepage {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 auto;
+
 }
 
 .movies-container-homepage {
@@ -77,8 +78,17 @@
   flex: 0 0 18%;
   margin: 0 15px;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, width 0.3s ease, height 0.3s ease;
 }
+
+.movie-data-homepage:hover {
+  transform: scale(1.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  width: 25%;
+  height: auto;
+}
+
 
 .movie-poster-homepage {
   width: 100%;
@@ -109,6 +119,7 @@
   transition: opacity 0.3s ease;
   border-radius: 8px;
   box-sizing: border-box;
+  font-weight: 100;
 }
 
 .movie-data-homepage:hover .movie-details-homepage {
@@ -117,7 +128,7 @@
 
 .movie-release-date-homepage, 
 .movie-description-homepage {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   margin-top: 5px;
 }
 
@@ -139,49 +150,49 @@
 
 
 .reasons-section {
-    /* text-align: center; */
-    background-color: #000; 
-    color: white;
-    padding: 2rem 1rem;
+  /* text-align: center; */
+  background-color: #000; 
+  color: white;
+  padding: 2rem 1rem;
 }
 
 .reasons-section h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    margin-left: 40px;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  margin-left: 40px;
 }
 
 .cards {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .card {
-    background: linear-gradient(to bottom, #1a1a1a, #2a2a2a);
-    border-radius: 10px;
-    padding: 1.5rem;
-    text-align: left;
-    width: 250px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(to bottom, #1a1a1a, #2a2a2a);
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: left;
+  width: 250px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
 }
 
 .card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 .card p {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    color: #ccc;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  color: #ccc;
 }
 
 /* .card img {
@@ -193,27 +204,26 @@
 
 
 .faq-section {
-    /* margin: 2rem 0; */
-    padding: 1rem;
-    
+  /* margin: 2rem 0; */
+  padding: 1rem;
 }
 
 .faq-section h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    margin-left: 40px;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  margin-left: 40px;
 }
 
 .faq-cards {
-    max-width: 940px;
-    /* Center horizontally */
-    margin: 0 auto; 
-    /* Add padding to prevent content from touching edges */
-    padding: 0 16px; 
+  max-width: 940px;
+  /* Center horizontally */
+  margin: 0 auto; 
+  /* Add padding to prevent content from touching edges */
+  padding: 0 16px; 
     
 }
 
 .faq-card {
-    background-color: aqua;
+  background-color: aqua;
 }
   
