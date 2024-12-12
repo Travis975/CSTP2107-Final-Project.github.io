@@ -224,6 +224,16 @@ const Movies = () => {
         <button onClick={nextTopRated}>▶</button>
       </div>
 
+
+      <h2>Favorited Movies</h2>
+      <div className="movies-section">
+      </div>
+
+      <h2>Watchlist</h2>
+      <div className="movies-section">
+      </div>
+
+
       {/* Hover Feature*/}
       <MovieDialog
         selectedMovie={selectedMovie}
