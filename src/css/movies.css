@@ -9,7 +9,8 @@
   align-items: center;
   justify-content:space-evenly;
   margin-left: 10px;
-  width: calc(150px * 5 + 60px); /* Adjust based on number of visible movies */
+  margin-bottom: 10px;
+  width: calc(25% * 5); /* Adjust based on number of visible movies */
 }
 
 .movie-card {
@@ -18,7 +19,6 @@
   box-sizing: border-box;
   width: 150px;
   text-align: center;
-  
 }
 
 .image-container {

@@ -7,8 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
+import MovieDialog from '../components/MovieDialog'; // Import the MovieDialog component
 
 const popularMovieURL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
 const upcomingMovieURL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
@@ -27,6 +26,7 @@ const Movies = () => {
   const [openDialog, setOpenDialog] = useState(false); 
   const [selectedMovie, setSelectedMovie] = useState(null); 
   const [dialogPosition, setDialogPosition] = useState({ top: 0, left: 0 }); 
+  const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
 
   const itemsPerPage = 6; // Number of items to show per page
 
@@ -75,6 +75,17 @@ const Movies = () => {
     topRatedMovies.forEach((movie) => getVideos(movie.id));
   }, [popularMovies, upcomingMovies, topRatedMovies]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition({ x: window.scrollX, y: window.scrollY });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   // Navigation functions
   const nextPopular = () => {
     setPopularIndex((prev) => (prev + itemsPerPage) % popularMovies.length);
@@ -109,7 +120,7 @@ const Movies = () => {
   // Show dialog with movie details
   const handleMouseEnter = (movie, event) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    setDialogPosition({ top: rect.top + window.scrollY, left: rect.left });
+    setDialogPosition({ top: rect.top + window.scrollY, left: rect.left + window.scrollX });
     setSelectedMovie(movie);
     setOpenDialog(true);
   };
@@ -213,43 +224,14 @@ const Movies = () => {
         <button onClick={nextTopRated}>▶</button>
       </div>
 
-      {/* Movie Details Dialog */}
-      {selectedMovie && (
-        <Dialog
-          open={openDialog}
-          onClose={handleMouseLeave}
-          PaperProps={{
-            style: {
-              position: 'absolute',
-              top: dialogPosition.top,
-              left: dialogPosition.left,
-              margin: 0,
-            },
-          }}
-        >
-          <DialogContent onMouseLeave={() => handleMouseLeave()}>
-            <Card sx={{ maxWidth: 225 }}>
-              <CardMedia
-                sx={{ height: 250 }}
-                image={`https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`}
-                title={selectedMovie.title}
-              />
-              <CardContent>
-                <Typography paddingBottom={2} variant="h5" component="div">
-                  {selectedMovie.title}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  {selectedMovie.overview.substring(0, 150) + "..."}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-              </CardActions>
-            </Card>
-          </DialogContent>
-        </Dialog>
-      )}
+      {/* Hover Feature*/}
+      <MovieDialog
+        selectedMovie={selectedMovie}
+        openDialog={openDialog}
+        handleMouseLeave={handleMouseLeave}
+        dialogPosition={dialogPosition}
+        scrollPosition={scrollPosition}
+      />
     </div>
   );
 };
