@@ -1,13 +1,12 @@
 .privacy-policy {
     margin: 0;
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: right;
     justify-content: center;
     min-width: 320px;
     min-height: 100vh;
-    width: 100%;
-    max-width: 800px;
     height: 100%;
     background-color: #1e1e2e;
     color: #ffffff;
@@ -29,18 +28,8 @@
     margin-bottom: 15px;
 }
 
-.privacy-policy > * {
+.privacy-policy {
     flex: 1;
     width: 100%;
 }
 
-@media (max-width: 768px) {
-    .privacy-policy h1 {
-        font-size: 2rem;
-    }
-
-    .privacy-policy p {
-        font-size: 1rem;
-        text-align: center;
-    }
-}

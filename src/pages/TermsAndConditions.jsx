@@ -1,24 +1,10 @@
 import { Typography, Box, Container } from "@mui/material";
-import Navbar from "../components/Navbar";
 import "../css/termsAndConditions.css";
 
 const TermsAndConditions = () => {
   return (
     <>
-      <Navbar />
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          textAlign: "center",
-          padding: "20px",
-          boxSizing: "border-box",
-        }}
-        className="terms-and-conditions"
-      >
+      <div className="terms-and-conditions">
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h4"
@@ -87,9 +73,9 @@ const TermsAndConditions = () => {
 
         <Typography sx={{ mb: 2, fontWeight: "bold", color: "#FFD700" }}>Contact Us</Typography>
         <Typography sx={{ mb: 2, color: "#ADD8E6" }}>
-          If you have any questions or suggestions about the Terms and Conditions, please do not hesitate to contact the Service Provider at webflix-xxx-@gmail.com.
+          If you have any questions or suggestions about the Terms and Conditions, please do not hesitate to contact the Service Provider at webflix-xxx-@gmail.com. We will get back to you at the earliest convenience.
         </Typography>
-      </Container>
+      </div>
     </>
   );
 };

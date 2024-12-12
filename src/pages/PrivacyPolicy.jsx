@@ -1,24 +1,10 @@
 import { Typography, Box, Container } from "@mui/material";
-import Navbar from "../components/Navbar"; // Existing local Navbar component
 import "../css/privacyPolicy.css"
 
 const PrivacyPolicy = () => {
   return (
     <>
-      <Navbar />
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          textAlign: "center",
-          padding: "20px",
-          boxSizing: "border-box",
-        }}
-        className="privacy-policy"
-      >
+      <div className="privacy-policy">
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h4"
@@ -96,7 +82,7 @@ const PrivacyPolicy = () => {
         <Typography sx={{ mb: 2, color: "#ADD8E6" }}>
           If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at webflix-xxx-@gmail.com.
         </Typography>
-      </Container>
+      </div>
     </>
   );
 };

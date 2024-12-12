@@ -6,8 +6,7 @@
     justify-content: center;
     min-width: 320px;
     min-height: 100vh;
-    width: 100%;
-    max-width: 800px;
+    text-align: center;
     height: 100%;
     background-color: #1e1e2e;
     color: #ffffff;
@@ -29,18 +28,5 @@
     margin-bottom: 15px;
 }
 
-.terms-and-conditions > * {
-    flex: 1;
-    width: 100%;
-}
 
-@media (max-width: 768px) {
-    .terms-and-conditions h1 {
-        font-size: 2rem;
-    }
 
-    .terms-and-conditions p {
-        font-size: 1rem;
-        text-align: center;
-    }
-}
