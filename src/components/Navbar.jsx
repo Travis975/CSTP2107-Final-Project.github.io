@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { AppBar, Box, Menu, MenuItem, Toolbar } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { AppBar, Box, Button, Menu, MenuItem, Toolbar } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
@@ -30,29 +30,12 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
     };
 
     const handleLogoClick = () => {
-        if (
-            location.pathname === '/' ||
-            location.pathname === '/signin' ||
-            location.pathname === '/signup' ||
-            location.pathname === '/privacy-policy' ||
-            location.pathname === '/terms-and-conditions' 
-        ) {
-            navigate('/');
-        } else if (
-            location.pathname === '/movies' ||
-            location.pathname === '/watch-trailer' ||
-            location.pathname === '/account' ||
-            location.pathname === '/favourites' ||
-            location.pathname === '/watchlater'
-        ) {
-            navigate('/movies');
-        }
+        navigate('/');
     };
 
     const handleUserLogoHover = (event) => {
         setAnchorEl(event.currentTarget);
     };
-
 
     const handleCloseDropdown = () => {
         setAnchorEl(null);
@@ -66,18 +49,17 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
     const handleDivNavigation = (route) => {
         navigate(`/movies#${route}`);
         setTimeout(() => {
-          if (route === 'favorites' && favoritesRef) {
-            favoritesRef.current.scrollIntoView({ behavior: 'smooth' });
-          } else if (route === 'watchlater' && watchlaterRef) {
-            watchlaterRef.current.scrollIntoView({ behavior: 'smooth' });
-          }
+            if (route === 'favorites' && favoritesRef) {
+                favoritesRef.current.scrollIntoView({ behavior: 'smooth' });
+            } else if (route === 'watchlater' && watchlaterRef) {
+                watchlaterRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
         }, 100);
-      };
-    
-      
-      
+    };
 
-    
+    // List of public routes where login/signup buttons should appear
+    const publicRoutes = ['/', '/signin', '/signup', '/privacy-policy', '/terms-and-conditions'];
+    const isPublicRoute = publicRoutes.includes(location.pathname);
 
     return (
         <AppBar
@@ -104,37 +86,73 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                 </Box>
 
                 <Box>
-                    <img
-                        src={userlogo}
-                        alt="User Logo"
-                        style={{
-                            height: 45,
-                            cursor: 'pointer',
-                            marginRight: '25px',
-                            marginTop: '5px',
-                        }}
-                        onMouseEnter={handleUserLogoHover}
-                    />
-
-                    <Menu
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={handleCloseDropdown}
-                        MenuListProps={{
-                            onMouseLeave: handleCloseDropdown,
-                        }}
-                    >
-                        <MenuItem onClick={() => handleNavigation('/account')}>
-                            My Account
-                        </MenuItem>
-                        <MenuItem onClick={() => handleDivNavigation('favorites')}>
-                        Favorite Movies
-                        </MenuItem>
-                        <MenuItem onClick={() => handleDivNavigation('watchlater')}>
-                        Watch Later
-                        </MenuItem>
-                        <MenuItem onClick={handleSignout}>Sign Out</MenuItem>
-                    </Menu>
+                    {isPublicRoute ? (
+                        <>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => navigate('/signin')}
+                                style={{
+                                    color: 'black',
+                                    backgroundColor: 'transparent',
+                                    textTransform: 'none',
+                                    fontWeight: 'bold',
+                                    boxShadow: 'none',
+                                }}
+                            >
+                                Login
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => navigate('/signup')}
+                                style={{
+                                    color: 'black',
+                                    backgroundColor: 'transparent',
+                                    textTransform: 'none',
+                                    fontWeight: 'bold',
+                                    marginRight: '40px',
+                                    boxShadow: 'none',
+                                }}
+                
+                            >
+                                Sign Up
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <img
+                                src={userlogo}
+                                alt="User Logo"
+                                style={{
+                                    height: 45,
+                                    cursor: 'pointer',
+                                    marginRight: '25px',
+                                    marginTop: '5px',
+                                }}
+                                onMouseEnter={handleUserLogoHover}
+                            />
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleCloseDropdown}
+                                MenuListProps={{
+                                    onMouseLeave: handleCloseDropdown,
+                                }}
+                            >
+                                <MenuItem onClick={() => handleNavigation('/account')}>
+                                    My Account
+                                </MenuItem>
+                                <MenuItem onClick={() => handleDivNavigation('favorites')}>
+                                    Favorite Movies
+                                </MenuItem>
+                                <MenuItem onClick={() => handleDivNavigation('watchlater')}>
+                                    Watch Later
+                                </MenuItem>
+                                <MenuItem onClick={handleSignout}>Sign Out</MenuItem>
+                            </Menu>
+                        </>
+                    )}
                 </Box>
             </Toolbar>
         </AppBar>
