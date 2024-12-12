@@ -1,0 +1,67 @@
+/* signin.css */
+.sign-in-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ensure it takes the full viewport height */
+    width: 100vw;
+}
+  
+/* Container styles */
+.signin-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid black;
+    padding: 40px;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+/* Typography styles */
+.signin-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* TextField styles */
+.signin-textfield {
+    margin-bottom: 16px;
+}
+
+/* Button styles */
+.signin-button {
+    margin-top: 16px;
+}
+
+.forgot-password {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Alert styles */
+.signin-alert {
+    margin-top: 16px;
+}
+
+/* Link styles */
+.signup-link {
+    text-align: center;
+    margin-top: 16px;
+    color: white;
+    text-decoration: none;
+}
+
+/* Dialog styles */
+.reset-dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.reset-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+}
+  

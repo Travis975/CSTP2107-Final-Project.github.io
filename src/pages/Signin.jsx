@@ -7,6 +7,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Alert from '../components/Alert';
 import { getErrorCode } from '../utils';
 import useLocalStorage from '../hooks/useLocalStorage';
+import '../css/signin.css';
+import '../components/Footer';
 
 const SignInPage = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -42,65 +44,72 @@ const SignInPage = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" gap="12px" border="1px solid black" padding="40px" borderRadius="12px">
-      <Typography variant="h3">Sign in</Typography>
-      <TextField
-        required
-        id="email"
-        label="Email"
-        placeholder="Enter your email"
-        type="email"
-        value={credentials.email}
-        onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
-      />
-      <TextField
-        required
-        id="password"
-        label="Password"
-        placeholder="Enter your Password"
-        type="password"
-        value={credentials.password}
-        onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-      />
-      <Button onClick={handleSignin} variant="contained" color="secondary">
-        Signin
-      </Button>
-      <Typography
-        variant="body2"
-        color="primary"
-        style={{ cursor: 'pointer', marginTop: '10px' }}
-        onClick={() => setOpenResetDialog(true)}
-      >
-        Forgot Password?
-      </Typography>
-      <Alert alertConfig={alertConfig} />
-      <Link to="/signup">Don't have an account? Signup</Link>
+    <div className='sign-in-page'>
+      <Box className="signin-container">
+        <Typography className="signin-header">Sign in</Typography>
+        <TextField
+          required
+          id="email"
+          label="Email"
+          placeholder="Enter your email"
+          type="email"
+          value={credentials.email}
+          onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+          className="signin-textfield"
+        />
+        <TextField
+          required
+          id="password"
+          label="Password"
+          placeholder="Enter your Password"
+          type="password"
+          value={credentials.password}
+          onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+          className="signin-textfield"
+        />
+        <Button onClick={handleSignin} variant="contained" color="secondary">
+          Signin
+        </Button>
+        <Typography
+          variant="body2"
+          color="primary"
+          style={{ cursor: 'pointer', marginTop: '10px' }}
+          className="forgot-password"
+          onClick={() => setOpenResetDialog(true)}
+        >
+          Forgot Password?
+        </Typography>
+        <Alert alertConfig={alertConfig} className="signin-alert" />
+        <Link to="/signup" className="signup-link">Don't have an account? Signup</Link>
 
-      {/* Forgot Password Dialog */}
-      <Dialog open={openResetDialog} onClose={() => setOpenResetDialog(false)}>
-        <DialogTitle>Reset Password</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="forgotEmail"
-            label="Email Address"
-            type="email"
-            fullWidth
-            value={forgotEmail}
-            onChange={(e) => setForgotEmail(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenResetDialog(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleForgotPassword} color="secondary">
-            Reset Password
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+        {/* Forgot Password Dialog */}
+        <Dialog open={openResetDialog} onClose={() => setOpenResetDialog(false)}>
+          <DialogTitle>Reset Password</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="forgotEmail"
+              label="Email Address"
+              type="email"
+              fullWidth
+              value={forgotEmail}
+              onChange={(e) => setForgotEmail(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions className="reset-dialog-actions">
+            <Button onClick={() => setOpenResetDialog(false)} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleForgotPassword} color="secondary">
+              Reset Password
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
+
+    </div>
+    
   );
 };
 
