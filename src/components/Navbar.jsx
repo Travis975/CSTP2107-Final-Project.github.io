@@ -142,6 +142,7 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                 justifyContent: 'space-between',
                 padding: '0 16px',
                 backgroundColor: '#D3D3D3',
+                height: '80px',
             }}
         >
             <Toolbar style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
@@ -153,7 +154,7 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                             height: 60,
                             cursor: 'pointer',
                             marginLeft: '-15px',
-                            marginTop: '5px',
+                            marginTop: '35px',
                         }}
                         onClick={handleLogoClick}
                     />
@@ -194,8 +195,8 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                         </>
                     ) : (
                         <>
-                            <IconButton onClick={handleSearchOpen} style={{ position: 'relative', top: '-16px', left: '-15px' }}>
-                                <SearchIcon sx={{ fontSize: '32px', color: '#4262BE' }} />
+                            <IconButton onClick={handleSearchOpen} style={{ position: 'relative', top: '27px', left: '-65px' }}>
+                                <SearchIcon sx={{ fontSize: '42px', color: '#4262BE' }} />
                             </IconButton>
                             
                             {isSearchOpen && (
@@ -301,8 +302,8 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                                 style={{
                                     height: 45,
                                     cursor: 'pointer',
-                                    marginRight: '25px',
-                                    marginTop: '15px',
+                                    marginRight: '15px',
+                                    marginTop: '-25px',
                                 }}
                                 onMouseEnter={handleUserLogoHover}
                             />

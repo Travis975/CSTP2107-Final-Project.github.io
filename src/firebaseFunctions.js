@@ -1,7 +1,5 @@
-import { doc, setDoc, deleteDoc, collection, getDocs, addDoc } from "firebase/firestore"; // Added necessary imports
-import { auth, db } from "./firebaseConfig"; // Adjust the import path if needed
-
-// Function to add movie to favorites
+import { doc, setDoc, deleteDoc, collection, getDocs, addDoc, updateDoc } from "firebase/firestore";
+import { auth, db } from "./firebaseConfig";
 export const addMovieToFavorites = async (movie) => {
   try {
     const user = auth.currentUser;
@@ -14,8 +12,6 @@ export const addMovieToFavorites = async (movie) => {
     console.error("Error adding movie to favorites: ", error);
   }
 };
-
-// Function to remove movie from favorites
 export const removeMovieFromFavorites = async (movie) => {
   try {
     const user = auth.currentUser;
@@ -29,16 +25,13 @@ export const removeMovieFromFavorites = async (movie) => {
   }
 };
 
-// Function to add movie to watch later
 export const addMovieToWatchlater = async (movie) => {
   try {
     const user = auth.currentUser;
     if (user) {
       const watchlaterRef = collection(db, "users", user.uid, "watchlater");
-
-      // Check if the movie is already in the watchlater list
       const movieExists = await getDocs(watchlaterRef);
-      const alreadyAdded = movieExists.docs.some(doc => doc.data().id === movie.id);
+      const alreadyAdded = movieExists.docs.some((doc) => doc.data().id === movie.id);
 
       if (!alreadyAdded) {
         await addDoc(watchlaterRef, movie);
@@ -48,13 +41,11 @@ export const addMovieToWatchlater = async (movie) => {
     console.error("Error adding movie to watch later: ", error);
   }
 };
-
-// Function to remove movie from watch later
 export const removeMovieFromWatchlater = async (movie) => {
   try {
     const user = auth.currentUser;
     if (user) {
-      await deleteDoc(doc(db, "users", user.uid, "watchlater", movie.id.toString())); 
+      await deleteDoc(doc(db, "users", user.uid, "watchlater", movie.id.toString()));
     } else {
       console.log("User not authenticated");
     }

@@ -10,7 +10,7 @@
   justify-content:space-evenly;
   margin-left: 10px;
   margin-bottom: 10px;
-  width: calc(25% * 5); /* Adjust based on number of visible movies */
+  width: calc(25% * 3.8); /* Adjust based on number of visible movies */
 }
 
 .movie-card {
