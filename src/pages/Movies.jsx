@@ -12,6 +12,7 @@ const Movies = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [upcomingIndex, setUpcomingIndex] = useState(0);
   const [topRatedIndex, setTopRatedIndex] = useState(0);
+  const [popularIndex, setPopularIndex] = useState(0);  // New state for Popular Movies
 
   const itemsPerPage = 6;
   const slideCount = popularMovies.length;
@@ -90,87 +91,63 @@ const Movies = () => {
 
   return (
     <div className="movie-page">
-      {/* Carousel */}
-      <div className="relative w-full max-w-7xl mx-auto overflow-hidden">
-        <div
-          className="flex transition-transform duration-500"
-          style={{
-            transform: `translateX(-${currentSlide * 100}%)`,
-          }}
-        >
-          {popularMovies.map((movie) => (
-            <div key={movie.id} className="min-w-full-movie-page">
-              <div className="image-container-movie-page">
+      {/* Popular Movies */}
+      <div>
+        <h2>Popular Movies</h2>
+        <div className="movies-section-movie-page">
+          <button onClick={() => scroll(popularMovies, setPopularIndex, "prev")}>◀</button>
+          {popularMovies
+            .slice(popularIndex, popularIndex + itemsPerPage)
+            .concat(
+              popularMovies.slice(0, Math.max(0, popularIndex + itemsPerPage - popularMovies.length))
+            )
+            .map((movie) => (
+              <div key={movie.id} className="movie-box">
                 <img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
                   className="movie-poster"
                 />
+                <div className="movie-title">{movie.title}</div>
+                <div className="hover-actions">
+                  {!favorites.some((fav) => fav.id === movie.id) ? (
+                    <button
+                      onClick={() => {
+                        setFavorites((prev) => [...prev, movie]);
+                      }}
+                    >
+                      Add to Favorites
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setFavorites((prev) => prev.filter((fav) => fav.id !== movie.id));
+                      }}
+                    >
+                      Remove from Favorites
+                    </button>
+                  )}
+                  {!watchlater.some((later) => later.id === movie.id) ? (
+                    <button
+                      onClick={() => {
+                        setWatchlater((prev) => [...prev, movie]);
+                      }}
+                    >
+                      Add to Watch Later
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setWatchlater((prev) => prev.filter((later) => later.id !== movie.id));
+                      }}
+                    >
+                      Remove from Watch Later
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className="hover-actions-movie-page">
-                {!favorites.some((fav) => fav.id === movie.id) ? (
-                  <button
-                    onClick={() => {
-                      setFavorites((prev) => [...prev, movie]);
-                    }}
-                  >
-                    Add to Favorites
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setFavorites((prev) => prev.filter((fav) => fav.id !== movie.id));
-                    }}
-                  >
-                    Remove from Favorites
-                  </button>
-                )}
-                {!watchlater.some((later) => later.id === movie.id) ? (
-                  <button
-                    onClick={() => {
-                      setWatchlater((prev) => [...prev, movie]);
-                    }}
-                  >
-                    Add to Watch Later
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setWatchlater((prev) => prev.filter((later) => later.id !== movie.id));
-                    }}
-                  >
-                    Remove from Watch Later
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Navigation buttons */}
-        <button
-          onClick={prevSlide}
-          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600 transition-all z-10"
-        >
-          ◀
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600 transition-all z-10"
-        >
-          ▶
-        </button>
-
-        {/* Progress indicators */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {popularMovies.map((_, index) => (
-            <div
-              key={index}
-              className={`h-2 w-2 rounded-full ${
-                currentSlide === index ? "bg-gray-800" : "bg-gray-400"
-              }`}
-            />
-          ))}
+            ))}
+          <button onClick={() => scroll(popularMovies, setPopularIndex, "next")}>▶</button>
         </div>
       </div>
 
@@ -191,8 +168,8 @@ const Movies = () => {
                   alt={movie.title}
                   className="movie-poster"
                 />
-                <div className="movie-title-movie-page">{movie.title}</div>
-                <div className="hover-actions-movie-page">
+                <div className="movie-title">{movie.title}</div>
+                <div className="hover-actions">
                   {!favorites.some((fav) => fav.id === movie.id) ? (
                     <button
                       onClick={() => {

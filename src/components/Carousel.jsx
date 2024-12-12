@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
+// not used for now
 
 const Carousel = ({
   movies = [], // Default to an empty array to prevent undefined errors
