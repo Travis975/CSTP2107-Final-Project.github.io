@@ -50,11 +50,11 @@ export const addMovieToWatchlater = async (movie) => {
 };
 
 // Function to remove movie from watch later
-export const removeMovieFromWatchlater = async (movie) => { // Change to accept movie object for consistency
+export const removeMovieFromWatchlater = async (movie) => {
   try {
     const user = auth.currentUser;
     if (user) {
-      await deleteDoc(doc(db, "users", user.uid, "watchlater", movie.id.toString())); // Use movie.id instead of movieId
+      await deleteDoc(doc(db, "users", user.uid, "watchlater", movie.id.toString())); 
     } else {
       console.log("User not authenticated");
     }
