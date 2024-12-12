@@ -224,8 +224,8 @@ const Movies = () => {
         <button onClick={nextTopRated}>▶</button>
       </div>
 
-
-      <h2>Favorited Movies</h2>
+      {/* Favorite Movies Section */}
+      <h2>Favorite Movies</h2>
       <div className="movies-section">
       </div>
 
