@@ -12,10 +12,10 @@ const Movies = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [upcomingIndex, setUpcomingIndex] = useState(0);
   const [topRatedIndex, setTopRatedIndex] = useState(0);
-  const [popularIndex, setPopularIndex] = useState(0);  // New state for Popular Movies
+  const [popularIndex, setPopularIndex] = useState(0);
+  const [favoriteIndex, setFavoriteIndex] = useState(0); // New state for Favorites
 
   const itemsPerPage = 6;
-  const slideCount = popularMovies.length;
 
   const fetchMovies = async (url, setMovies) => {
     try {
@@ -68,18 +68,21 @@ const Movies = () => {
   };
 
   const nextSlide = () => {
+    const slideCount = popularMovies.length;
     if (slideCount > 0) {
       setCurrentSlide((prev) => (prev + 1) % slideCount);
     }
   };
 
   const prevSlide = () => {
+    const slideCount = popularMovies.length;
     if (slideCount > 0) {
       setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
     }
   };
 
   useEffect(() => {
+    const slideCount = popularMovies.length;
     if (slideCount === 0) return;
 
     const interval = setInterval(() => {
@@ -87,7 +90,7 @@ const Movies = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [slideCount]);
+  }, [popularMovies]);
 
   return (
     <div className="movie-page">
@@ -112,12 +115,16 @@ const Movies = () => {
                 <div className="hover-actions">
                   {!favorites.some((fav) => fav.id === movie.id) ? (
                     <button
-                      onClick={() => {
+                    onClick={() => {
+                      // Prevent adding duplicates to local favorites state
+                      if (!favorites.some((fav) => fav.id === movie.id)) {
                         setFavorites((prev) => [...prev, movie]);
-                      }}
-                    >
-                      Add to Favorites
-                    </button>
+                      }
+                    }}
+                  >
+                    Add to Favorites
+                  </button>
+                  
                   ) : (
                     <button
                       onClick={() => {
@@ -172,12 +179,16 @@ const Movies = () => {
                 <div className="hover-actions">
                   {!favorites.some((fav) => fav.id === movie.id) ? (
                     <button
-                      onClick={() => {
+                    onClick={() => {
+                      // Prevent adding duplicates to local favorites state
+                      if (!favorites.some((fav) => fav.id === movie.id)) {
                         setFavorites((prev) => [...prev, movie]);
-                      }}
-                    >
-                      Add to Favorites
-                    </button>
+                      }
+                    }}
+                  >
+                    Add to Favorites
+                  </button>
+                  
                   ) : (
                     <button
                       onClick={() => {
@@ -232,12 +243,16 @@ const Movies = () => {
                 <div className="hover-actions">
                   {!favorites.some((fav) => fav.id === movie.id) ? (
                     <button
-                      onClick={() => {
+                    onClick={() => {
+                      // Prevent adding duplicates to local favorites state
+                      if (!favorites.some((fav) => fav.id === movie.id)) {
                         setFavorites((prev) => [...prev, movie]);
-                      }}
-                    >
-                      Add to Favorites
-                    </button>
+                      }
+                    }}
+                  >
+                    Add to Favorites
+                  </button>
+                  
                   ) : (
                     <button
                       onClick={() => {
@@ -268,6 +283,56 @@ const Movies = () => {
               </div>
             ))}
           <button onClick={() => scroll(topRatedMovies, setTopRatedIndex, "next")}>▶</button>
+        </div>
+      </div>
+
+      {/* Favorites */}
+      <div>
+        <h2>Favorites</h2>
+        <div className="movies-section-movie-page">
+          <button onClick={() => scroll(favorites, setFavoriteIndex, "prev")}>◀</button>
+          {favorites
+            .slice(favoriteIndex, favoriteIndex + itemsPerPage)
+            .concat(
+              favorites.slice(0, Math.max(0, favoriteIndex + itemsPerPage - favorites.length))
+            )
+            .map((movie) => (
+              <div key={movie.id} className="movie-box">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  className="movie-poster"
+                />
+                <div className="movie-title">{movie.title}</div>
+                <div className="hover-actions">
+                  <button
+                    onClick={() => {
+                      setFavorites((prev) => prev.filter((fav) => fav.id !== movie.id));
+                    }}
+                  >
+                    Remove from Favorites
+                  </button>
+                  {!watchlater.some((later) => later.id === movie.id) ? (
+                    <button
+                      onClick={() => {
+                        setWatchlater((prev) => [...prev, movie]);
+                      }}
+                    >
+                      Add to Watch Later
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setWatchlater((prev) => prev.filter((later) => later.id !== movie.id));
+                      }}
+                    >
+                      Remove from Watch Later
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          <button onClick={() => scroll(favorites, setFavoriteIndex, "next")}>▶</button>
         </div>
       </div>
     </div>
