@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/movies.css';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import MovieDialog from '../components/MovieDialog'; // Import the MovieDialog component
+
+import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 const popularMovieURL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
 const upcomingMovieURL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_API_KEY}`;
@@ -18,6 +15,8 @@ const Movies = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [videos, setVideos] = useState({});
+
+  // states for scrolling through movies
   const [popularIndex, setPopularIndex] = useState(0);
   const [upcomingIndex, setUpcomingIndex] = useState(0);
   const [topRatedIndex, setTopRatedIndex] = useState(0);
@@ -27,6 +26,8 @@ const Movies = () => {
   const [selectedMovie, setSelectedMovie] = useState(null); 
   const [dialogPosition, setDialogPosition] = useState({ top: 0, left: 0 }); 
   const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
+
+  const favoriteMovieCollection = collection(db, "favorite");
 
   const itemsPerPage = 6; // Number of items to show per page
 
