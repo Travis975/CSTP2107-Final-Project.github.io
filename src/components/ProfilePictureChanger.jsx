@@ -14,7 +14,7 @@ const ProfilePictureChanger = ({ currentImage, onChange }) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setSelectedImage(e.target.result);
-        onChange(e.target.result); // Pass the new image to the parent
+        onChange(e.target.result);
       };
       reader.readAsDataURL(file);
     }
