@@ -61,7 +61,7 @@ const Carousel = ({ movies = [] }) => {
             maxWidth: "50%",
           }}
         >
-          <Typography variant="h2" gutterBottom>
+          <Typography variant="h3" gutterBottom>
             {movies[currentSlide]?.title}
           </Typography>
           <Box display="flex" alignItems="center" gap={2}>
