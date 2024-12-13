@@ -105,8 +105,8 @@ const MovieDialog = ({
     <div
       className="movie-dialog"
       style={{
-        top: `${dialogPosition.top - scrollPosition.y}px`,
-        left: `${dialogPosition}px`,
+        top: `${dialogPosition.top}px`,
+        left: `${dialogPosition.left}px`,
       }}
       onMouseLeave={handleMouseLeave}
     >

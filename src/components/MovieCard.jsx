@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../css/moviecard.css";
 import MovieDialog from "./MovieDialog"; // Importing MovieDialog
@@ -14,6 +14,8 @@ const MovieCard = ({
   videos = {},
 }) => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [dialogPosition, setDialogPosition] = useState({ top: 0, left: 0 });
+  const cardRef = useRef(null);
 
   if (!movie || !movie.id || !movie.poster_path) {
     console.error("Invalid movie data passed to MovieCard.");
@@ -22,6 +24,8 @@ const MovieCard = ({
 
   const handleMouseEnter = (event) => {
     onMouseEnter && onMouseEnter(movie, event);
+    const rect = cardRef.current.getBoundingClientRect();
+    setDialogPosition({ top: rect.top, left: rect.left });
     setOpenDialog(true);
   };
 
@@ -35,6 +39,7 @@ const MovieCard = ({
       className="movie-card"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      ref={cardRef}
     >
       <Link
         to="/watch-trailer"
@@ -52,17 +57,16 @@ const MovieCard = ({
         </div>
       </Link>
 
-
       <MovieDialog
         selectedMovie={movie}
         openDialog={openDialog}
         handleMouseLeave={handleMouseLeave}
+        dialogPosition={dialogPosition}
         favorites={favorites}
         watchlater={watchlater}
         setFavorites={setFavorites}
         setWatchlater={setWatchlater}
       />
-
     </div>
   );
 };
