@@ -205,8 +205,9 @@
 
 
 .faq-section {
-  /* margin: 2rem 0; */
-  padding: 1rem;
+  background-color: #000; 
+  color: white;
+  padding: 2rem 1rem;
 }
 
 .faq-section h2 {
@@ -217,14 +218,50 @@
 
 .faq-cards {
   max-width: 940px;
-  /* Center horizontally */
   margin: 0 auto; 
-  /* Add padding to prevent content from touching edges */
   padding: 0 16px; 
-    
 }
 
-.faq-card {
-  background-color: aqua;
+.faq-accordion {
+  margin: 0 !important;
 }
-  
+
+.faq-accordion .MuiAccordion-root {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.faq-accordion .MuiAccordionSummary-root {
+  background: linear-gradient(to bottom, 
+    rgba(26, 26, 26, calc(1 - (var(--index) * 0.2))), 
+    rgba(42, 42, 42, calc(1 - (var(--index) * 0.2)))
+  ) !important;
+  color: white !important;
+  min-height: auto !important;
+  height: 60px;
+}
+
+.faq-accordion .MuiAccordionDetails-root {
+  background: linear-gradient(to bottom, 
+    rgba(26, 26, 26, calc(1 - (var(--index) * 0.2))), 
+    rgba(42, 42, 42, calc(1 - (var(--index) * 0.2)))
+  ) !important;
+  color: white !important;
+  padding: 16px !important;
+}
+
+.faq-accordion:nth-child(1) {
+  --index: 0;
+}
+
+.faq-accordion:nth-child(2) {
+  --index: 1;
+}
+
+.faq-accordion:nth-child(3) {
+  --index: 2;
+}
+
+.faq-accordion .MuiAccordionDetails-root .MuiTypography-root {
+  color: #ccc !important;
+}

@@ -130,25 +130,28 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* FAQ Section */}
+            {/* FAQ Section */}
       <div className="faq-section">
         <h2>Frequently Asked Questions</h2>
         <div className='faq-cards'>
-        {FAQs.map((faq, index) => (
-          <Accordion key={index}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls={`panel${index}-content`}
-              id={`panel${index}-header`}
-              className='faq-card'
+          {FAQs.map((faq, index) => (
+            <Accordion 
+              key={index} 
+              className="faq-accordion"
             >
-              <Typography>{faq.question}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>{faq.answer}</Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))}
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls={`panel${index}-content`}
+                id={`panel${index}-header`}
+                className='faq-card'
+              >
+                <Typography>{faq.question}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>{faq.answer}</Typography>
+              </AccordionDetails>
+            </Accordion>
+          ))}
         </div>
       </div>
       <Footer />
