@@ -15,7 +15,6 @@ const MovieDialog = ({
   openDialog,
   handleMouseLeave,
   dialogPosition = { top: 0, left: 0 }, 
-  scrollPosition = { y: 0 },
   favorites,
   watchlater,
   setFavorites,
@@ -105,8 +104,10 @@ const MovieDialog = ({
     <div
       className="movie-dialog"
       style={{
+        position: 'absolute',
         top: `${dialogPosition.top}px`,
         left: `${dialogPosition.left}px`,
+        zIndex: 1000, // Ensure the dialog is on top
       }}
       onMouseLeave={handleMouseLeave}
     >

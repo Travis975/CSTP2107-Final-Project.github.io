@@ -25,7 +25,7 @@ const MovieCard = ({
   const handleMouseEnter = (event) => {
     onMouseEnter && onMouseEnter(movie, event);
     const rect = cardRef.current.getBoundingClientRect();
-    setDialogPosition({ top: rect.top, left: rect.left });
+    setDialogPosition({ top: rect.top + window.scrollY, left: rect.left + window.scrollX });
     setOpenDialog(true);
   };
 
