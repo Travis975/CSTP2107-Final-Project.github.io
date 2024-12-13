@@ -1,5 +1,8 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import '../css/movieDialog.css';
+import { useNavigate } from 'react-router-dom';
+
 import { 
   addMovieToFavorites, 
   addMovieToWatchlater, 
@@ -18,6 +21,28 @@ const MovieDialog = ({
   setFavorites,
   setWatchlater,
 }) => {
+  const [videoId, setVideoId] = useState(null); // To store the trailer video ID
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch the trailer video ID when the selectedMovie changes
+    if (selectedMovie) {
+      const fetchTrailer = async () => {
+        try {
+          const response = await fetch(`https://api.themoviedb.org/3/movie/${selectedMovie.id}/videos?api_key=${import.meta.env.VITE_TMDB_API_KEY}`);
+          const data = await response.json();
+          const trailer = data.results.find((video) => video.site === 'YouTube');
+          if (trailer) {
+            setVideoId(trailer.key);
+          }
+        } catch (error) {
+          console.error('Error fetching trailer:', error);
+        }
+      };
+      fetchTrailer();
+    }
+  }, [selectedMovie]);
+
   if (!selectedMovie || !openDialog) return null;
 
   const isFavorite = favorites.some((movie) => movie.id === selectedMovie.id);
@@ -52,8 +77,6 @@ const MovieDialog = ({
     });
   };
   
-  
-
   const handleRemoveFromFavorites = async () => {
     await removeMovieFromFavorites(selectedMovie);
     setFavorites((prev) => prev.filter((movie) => movie.id !== selectedMovie.id));
@@ -62,6 +85,20 @@ const MovieDialog = ({
   const handleRemoveFromWatchLater = async () => {
     await removeMovieFromWatchlater(selectedMovie);
     setWatchlater((prev) => prev.filter((movie) => movie.id !== selectedMovie.id));
+  };
+
+  const handlePosterClick = () => {
+    // Only navigate if a trailer is found
+    if (videoId) {
+      navigate('/watch-trailer', {
+        state: {
+          videoId: videoId,
+          movieTitle: selectedMovie.title,
+        },
+      });
+    } else {
+      console.log("No trailer found for this movie");
+    }
   };
 
   return (
@@ -78,6 +115,8 @@ const MovieDialog = ({
         <img
           src={`https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`}
           alt={selectedMovie.title}
+          onClick={handlePosterClick}
+          style={{ cursor: 'pointer' }}
         />
         <div className="movie-dialog-buttons">
           {!isFavorite && (
