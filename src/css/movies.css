@@ -4,6 +4,10 @@
   /* margin-left: 40px; */
 }
 
+.movie-page h2 {
+  margin-left: 40px;
+}
+
 .movies-section {
   display: flex;
   align-items: center;
