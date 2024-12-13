@@ -72,8 +72,12 @@ const Carousel = ({ movies = [] }) => {
             {(movies[currentSlide]?.overview.slice(0, 160) + "...") || "No description available."}
           </Typography>
           <Button
-            variant="contained"
-            color="success"
+            variant="outlined"
+            sx={{
+              color: 'white',
+              backgroundColor: "#4262BE",
+              marginTop: '1.5rem', 
+            }}
             onClick={() =>
               navigate("/watch-trailer", {
                 state: {
@@ -85,6 +89,8 @@ const Carousel = ({ movies = [] }) => {
           >
             Watch Now
           </Button>
+
+
         </Box>
       </Box>
 
