@@ -39,7 +39,7 @@ const MovieCard = ({
       <Link
         to="/watch-trailer"
         state={{
-          videoId: videos[movie.id] && videos[movie.id][0]?.key, // Correctly referencing the video key
+          videoId: videos[movie.id] && videos[movie.id][0]?.key, 
           movieTitle: movie.title,
         }}
       >
