@@ -5,6 +5,7 @@
     align-items: center;
     height: 100vh; /* Ensure it takes the full viewport height */
     width: 100vw;
+    background-color: #1a1a1a
 }
   
 /* Container styles */
