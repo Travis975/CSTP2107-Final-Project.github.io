@@ -86,6 +86,28 @@ const Movies = () => {
       return () => unsubscribe();
     }
   }, []);
+
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+      const watchlaterRef = collection(db, "users", user.uid, "watchlater");
+  
+      const unsubscribe = onSnapshot(watchlaterRef, (snapshot) => {
+        const uniqueWatchLater = snapshot.docs
+          .map((doc) => doc.data())
+          .reduce((acc, movie) => {
+            if (!acc.some((m) => m.id === movie.id)) {
+              acc.push(movie);
+            }
+            return acc;
+          }, []);
+        setWatchlater(uniqueWatchLater);
+      });
+  
+      return () => unsubscribe();
+    }
+  }, []);
   
   const scroll = (movies, setIndex, direction) => {
     const totalMovies = movies.length;
