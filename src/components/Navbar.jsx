@@ -165,7 +165,7 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 padding: '0 16px',
-                backgroundColor: '#D3D3D3',
+                background: 'linear-gradient(135deg, #2a2a3b, #1e1e2e)',
                 height: '60px',
             }}
         >
