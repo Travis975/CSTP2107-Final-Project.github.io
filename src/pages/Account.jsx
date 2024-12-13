@@ -29,7 +29,7 @@ const Account = () => {
   const [email, setEmail] = useState("");
   const [favorites, setFavorites] = useState([]);
   const [watchLater, setWatchLater] = useState([]);
-  const [bannerColor, setBannerColor] = useState("#00FF00");
+  const [bannerColor, setBannerColor] = useState("#6163bf");
   const [openColorPicker, setOpenColorPicker] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -218,10 +218,11 @@ const Account = () => {
               </Box>
               <Typography>Email: {email}</Typography>
 
-              <Typography variant="h6" className="section-header" style={{ marginTop: '20px', marginBottom: '10px' }}>
+              <Typography variant="h5" className="section-header" style={{ marginTop: '20px', marginBottom: '10px' }}>
                 Activity
               </Typography>
               <Typography>Favorites Added: {favorites.length}</Typography>
+              <Typography>Watch Later Added: {watchLater.length}</Typography>
             </Box>
           )}
           {value === 1 && (
