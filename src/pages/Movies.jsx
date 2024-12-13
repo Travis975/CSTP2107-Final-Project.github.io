@@ -97,26 +97,31 @@ const Movies = () => {
   const renderSection = (title, movies, index, setIndex) => (
     <div>
       <h2>{title}</h2>
-      <div className="movies-section">
-        <button onClick={() => scroll(movies, setIndex, "prev")}>◀</button>
-        {movies
-          .slice(index, index + itemsPerPage)
-          .concat(movies.slice(0, Math.max(0, index + itemsPerPage - movies.length)))
-          .map((movie, idx) => (
-            <MovieCard
-              key={`${movie.id}-${idx}`} // Ensure unique keys
-              movie={movie}
-              favorites={favorites}
-              watchlater={watchlater}
-              setFavorites={setFavorites}
-              setWatchlater={setWatchlater}
-              videos={videos}
-            />
-          ))}
-        <button onClick={() => scroll(movies, setIndex, "next")}>▶</button>
-      </div>
+      {movies.length === 0 ? (
+        <h4>Please add movies to show them here!</h4>
+      ) : (
+        <div className="movies-section">
+          <button onClick={() => scroll(movies, setIndex, "prev")}>◀</button>
+          {movies
+            .slice(index, index + itemsPerPage)
+            .concat(movies.slice(0, Math.max(0, index + itemsPerPage - movies.length)))
+            .map((movie, idx) => (
+              <MovieCard
+                key={`${movie.id}-${idx}`} // Ensure unique keys
+                movie={movie}
+                favorites={favorites}
+                watchlater={watchlater}
+                setFavorites={setFavorites}
+                setWatchlater={setWatchlater}
+                videos={videos}
+              />
+            ))}
+          <button onClick={() => scroll(movies, setIndex, "next")}>▶</button>
+        </div>
+      )}
     </div>
   );
+  
   
 
   return (
@@ -132,7 +137,7 @@ const Movies = () => {
       {renderSection("Popular Movies", popularMovies, popularIndex, setPopularIndex)}
       {renderSection("Upcoming Movies", upcomingMovies, upcomingIndex, setUpcomingIndex)}
       {renderSection("Top Rated Movies", topRatedMovies, topRatedIndex, setTopRatedIndex)}
-      {renderSection("Favorites", favorites, favoriteIndex, setFavoriteIndex)}
+      {renderSection("Favourites", favorites, favoriteIndex, setFavoriteIndex)}
       {renderSection("Watch Later", watchlater, watchLaterIndex, setWatchLaterIndex)}
     </div>
   );
