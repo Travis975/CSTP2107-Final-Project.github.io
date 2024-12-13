@@ -112,35 +112,43 @@ const MovieDialog = ({
       onMouseLeave={handleMouseLeave}
     >
       <div className="movie-dialog-content">
-        <h3>{selectedMovie.title}</h3>
-        <img
-          src={`https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`}
-          alt={selectedMovie.title}
-          onClick={handlePosterClick}
-          style={{ cursor: 'pointer' }}
-        />
-        <div className="movie-dialog-buttons">
-          {!isFavorite && (
-            <button
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent bubbling
-              handleAddToFavorites();
-            }}
-          >
-            Add to Favorites
-          </button>
-          
-          )}
-          {isFavorite && (
-            <button onClick={handleRemoveFromFavorites}>Remove from Favorites</button>
-          )}
-          {!isWatchLater && (
-            <button onClick={handleAddToWatchLater}>Add to Watch Later</button>
-          )}
-          {isWatchLater && (
-            <button onClick={handleRemoveFromWatchLater}>Remove from Watch Later</button>
-          )}
+        {/* <h3>{selectedMovie.title}</h3> */}
+        <div className="movie-data-dialog" onClick={handlePosterClick} style={{ cursor: 'pointer' }}>
+          <img
+            src={`https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`}
+            alt={selectedMovie.title}
+            className="movie-poster-dialog"
+          />
+          <div className="movie-details-dialog">
+            <p className="movie-title-dialog">{selectedMovie.title}</p>
+            <p className='movie-rateing'>Movie rating: {selectedMovie.vote_average.toFixed(1)} ⭐</p>
+            <p className="movie-release-date-dialog">Release Date: {selectedMovie.release_date}</p>
+            <p className="movie-overview-dialog">{selectedMovie.overview}</p>
+          </div>
         </div>
+      </div>
+
+      <div className="movie-dialog-buttons">
+        {!isFavorite && (
+          <button
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent bubbling
+            handleAddToFavorites();
+          }}
+        >
+          Add to Favorites
+        </button>
+        
+        )}
+        {isFavorite && (
+          <button onClick={handleRemoveFromFavorites}>Remove from Favorites</button>
+        )}
+        {!isWatchLater && (
+          <button onClick={handleAddToWatchLater}>Add to Watch Later</button>
+        )}
+        {isWatchLater && (
+          <button onClick={handleRemoveFromWatchLater}>Remove from Watch Later</button>
+        )}
       </div>
     </div>
   );

@@ -1,41 +1,61 @@
-.movie-dialog {
-  position: fixed;
-  /* Change from absolute to fixed */
-  width: 300px;
-  height: auto;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  padding: 10px;
-  box-sizing: border-box;
-  z-index: 1000;
-  transition: all 0.3s ease;
+/* Movie Dialog Styles */
+.movie-data-dialog {
+  position: relative;
+  /* margin: 10px auto; */
+  max-width: 300px;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.movie-dialog-content {
+.movie-data-dialog:hover {
+  transform: scale(1.0);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+}
+
+.movie-poster-dialog {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.movie-details-dialog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 
-.movie-dialog h3 {
-  font-size: 18px;
-  margin: 10px 0;
-  text-align: center;
+.movie-data-dialog:hover .movie-details-dialog {
+  opacity: 1;
 }
 
-.movie-dialog p {
-  font-size: 14px;
-  color: #555;
-  text-align: center;
+/* .movie-title-dialog {
+  font-size: 1.2rem;
+  font-weight: bold;
   margin-bottom: 10px;
+} */
+
+.movie-release-date-dialog,
+.movie-overview-dialog {
+  font-size: 0.9rem;
+  /* margin-top: 5px; */
+  text-align: center;
 }
 
-.movie-dialog img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
 
 .movie-dialog-buttons {
   display: flex;
@@ -46,6 +66,7 @@
 
 .movie-dialog-buttons button {
   padding: 6px 12px;
+  /* margin-top: 10px; */
   font-size: 14px;
   background-color: #333;
   color: white;
