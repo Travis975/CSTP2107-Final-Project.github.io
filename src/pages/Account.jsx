@@ -5,31 +5,41 @@ import {
   Tabs,
   Tab,
   IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { auth, db } from "../firebaseConfig";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore";
 import ProfilePictureChanger from "../components/ProfilePictureChanger";
+import PaletteIcon from '@mui/icons-material/Palette';
 import ColorPickerDialog from "../components/ColorPickerDialog";
-// import MovieDialog from "../components/MovieDialog";
-import MovieCard from "../components/MovieCard"; 
+import MovieCard from "../components/MovieCard";
 import "../css/account.css";
+import ColorPickerWheel from "react-color-picker-wheel";
 
 const Account = () => {
-  const [value, setValue] = useState(0); 
-  const [username, setUsername] = useState(""); 
+  const [value, setValue] = useState(0);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [favorites, setFavorites] = useState([]); 
-  const [watchLater, setWatchLater] = useState([]); 
+  const [favorites, setFavorites] = useState([]);
+  const [watchLater, setWatchLater] = useState([]);
   const [bannerColor, setBannerColor] = useState("#00FF00");
-  const [openColorPicker, setOpenColorPicker] = useState(false); 
-  const [avatarUrl, setAvatarUrl] = useState(null); 
-  const [selectedMovie, setSelectedMovie] = useState(null); 
+  const [openColorPicker, setOpenColorPicker] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(null);
+  const [selectedMovie, setSelectedMovie] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openUsernameDialog, setOpenUsernameDialog] = useState(false);
+  const [newUsername, setNewUsername] = useState("");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   useEffect(() => {
     const fetchData = async () => {
       const user = auth.currentUser;
@@ -63,11 +73,11 @@ const Account = () => {
   }, []);
 
   const handleBannerColorChange = (color) => {
-    setBannerColor(color);
+    setBannerColor(color.hex);
     const user = auth.currentUser;
     if (user) {
       const userRef = doc(db, "users", user.uid);
-      updateDoc(userRef, { bannerColor: color }).catch((error) =>
+      updateDoc(userRef, { bannerColor: color.hex }).catch((error) =>
         console.error("Error updating banner color:", error)
       );
     }
@@ -83,6 +93,20 @@ const Account = () => {
     setOpenDialog(false);
   };
 
+  const handleUsernameChange = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        const userRef = doc(db, "users", user.uid);
+        await updateDoc(userRef, { username: newUsername });
+        setUsername(newUsername);
+        setOpenUsernameDialog(false);
+      } catch (error) {
+        console.error("Error updating username:", error);
+      }
+    }
+  };
+
   return (
     <Box className="account-page">
       {/* Profile Header */}
@@ -90,29 +114,15 @@ const Account = () => {
         className="profile-header"
         style={{
           backgroundColor: bannerColor,
-          marginTop: '80px', // Pushes the header below the navbar
-          padding: '20px', // Adds some spacing inside the header for better visibility
+          marginTop: '80px',
+          padding: '20px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: '8px', // Rounded corners for a smoother appearance
+          borderRadius: '8px',
         }}
       >
-        <IconButton
-          onClick={() => setOpenColorPicker(true)}
-          className="edit-banner-button"
-          style={{
-            backgroundColor: 'white', // Adds visibility
-            color: bannerColor,
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
-          }}
-        >
-          <EditIcon />
-        </IconButton>
         <ProfilePictureChanger
           avatarUrl={avatarUrl}
           onProfilePictureChange={(newAvatar) => setAvatarUrl(newAvatar)}
@@ -129,8 +139,20 @@ const Account = () => {
         >
           {username}
         </Typography>
+        <IconButton
+          onClick={() => setOpenColorPicker(true)}
+          style={{
+            marginLeft: '300px',
+            color: '#fff',
+            marginTop: '20px',
+            fontSize: '18px',
+            cursor: 'pointer',
+          }}
+        >
+          Change color
+          <PaletteIcon />
+        </IconButton>
       </Box>
-
 
       {/* Navigation Tabs */}
       <Tabs
@@ -139,7 +161,7 @@ const Account = () => {
         className="navigation-tabs"
         style={{
           marginTop: '20px',
-          backgroundColor: '#424242', 
+          backgroundColor: '#424242',
           borderRadius: '8px',
           padding: '10px',
           color: '#fff',
@@ -152,7 +174,6 @@ const Account = () => {
         <Tab label="Liked" />
         <Tab label="Watch Later" />
       </Tabs>
-
 
       {/* Content Section */}
       <Box className="content-section">
@@ -171,7 +192,21 @@ const Account = () => {
             <Typography variant="h6" className="section-header" style={{ marginBottom: '10px' }}>
               Account Details
             </Typography>
-            <Typography>Username: {username}</Typography>
+            <Box display="flex" alignItems="center">
+              <Typography>Username: {username}</Typography>
+              <IconButton
+                onClick={() => setOpenUsernameDialog(true)}
+                style={{
+                  marginLeft: '36px',
+                  color: '#fff',
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                }}
+              >
+                Edit
+                <EditIcon />
+              </IconButton>
+            </Box>
             <Typography>Email: {email}</Typography>
 
             <Typography variant="h6" className="section-header" style={{ marginTop: '20px', marginBottom: '10px' }}>
@@ -179,7 +214,6 @@ const Account = () => {
             </Typography>
             <Typography>Favorites Added: {favorites.length}</Typography>
           </Box>
-
         )}
         {value === 1 && (
           <Box className="favorites-section">
@@ -225,14 +259,46 @@ const Account = () => {
         )}
       </Box>
 
-    {/* Color Picker Dialog */}
-    <ColorPickerDialog
-      currentColor={bannerColor}
-      onColorChange={handleBannerColorChange}
-      open={openColorPicker}
-      onClose={() => setOpenColorPicker(false)}
-    />
+      {/* Color Picker Dialog */}
+      <Dialog open={openColorPicker} onClose={() => setOpenColorPicker(false)}>
+        <DialogTitle>Pick a Color</DialogTitle>
+        <DialogContent>
+          <ColorPickerWheel
+            color={bannerColor}
+            onChange={handleBannerColorChange}
+            size={300}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenColorPicker(false)} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
 
+      {/* Username Change Dialog */}
+      <Dialog open={openUsernameDialog} onClose={() => setOpenUsernameDialog(false)}>
+        <DialogTitle>Change Username</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="New Username"
+            type="text"
+            fullWidth
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenUsernameDialog(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleUsernameChange} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Movie Dialog */}
       {selectedMovie && (
