@@ -116,212 +116,214 @@ const Account = () => {
   };
 
   return (
-    <Box className="account-page">
-      {/* Profile Header */}
-      <Box
-        className="profile-header"
-        style={{
-          backgroundColor: bannerColor,
-          marginTop: '80px',
-          padding: '20px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: '8px',
-        }}
-      >
-        <ProfilePictureChanger
-          avatarUrl={avatarUrl}
-          onProfilePictureChange={(newAvatar) => setAvatarUrl(newAvatar)}
-        />
-        <Typography
-          variant="h5"
-          className="username-text"
+    <Box className="account-container">
+      <Box className="account-page">
+        {/* Profile Header */}
+        <Box
+          className="profile-header"
           style={{
-            marginTop: '20px',
-            fontWeight: 'bold',
-            color: '#fff',
-            textAlign: 'center',
+            backgroundColor: bannerColor,
+            marginTop: '80px',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '8px',
           }}
         >
-          {username}
-        </Typography>
-        <IconButton
-          onClick={() => setOpenColorPicker(true)}
-          style={{
-            marginLeft: '300px',
-            color: '#fff',
-            marginTop: '20px',
-            fontSize: '18px',
-            cursor: 'pointer',
-          }}
-        >
-          Change color
-          <PaletteIcon />
-        </IconButton>
-      </Box>
-
-      {/* Navigation Tabs */}
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        className="navigation-tabs"
-        style={{
-          marginTop: '20px',
-          backgroundColor: '#424242',
-          borderRadius: '8px',
-          padding: '10px',
-          color: '#fff',
-        }}
-        indicatorColor="primary"
-        textColor="inherit"
-        centered
-      >
-        <Tab label="Overview" />
-        <Tab label="Liked" />
-        <Tab label="Watch Later" />
-      </Tabs>
-
-      {/* Content Section */}
-      <Box className="content-section">
-        {value === 0 && (
-          <Box
-            className="overview-section"
+          <ProfilePictureChanger
+            avatarUrl={avatarUrl}
+            onProfilePictureChange={(newAvatar) => setAvatarUrl(newAvatar)}
+          />
+          <Typography
+            variant="h5"
+            className="username-text"
             style={{
               marginTop: '20px',
-              padding: '20px',
-              backgroundColor: '#333',
-              borderRadius: '8px',
-              color: 'white',
-              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              fontWeight: 'bold',
+              color: '#fff',
+              textAlign: 'center',
             }}
           >
-            <Typography variant="h6" className="section-header" style={{ marginBottom: '10px' }}>
-              Account Details
-            </Typography>
-            <Box display="flex" alignItems="center">
-              <Typography>Username: {username}</Typography>
-              <IconButton
-                onClick={() => setOpenUsernameDialog(true)}
-                style={{
-                  marginLeft: '36px',
-                  color: '#fff',
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                }}
-              >
-                Edit
-                <EditIcon />
-              </IconButton>
-            </Box>
-            <Typography>Email: {email}</Typography>
+            {username}
+          </Typography>
+          <IconButton
+            onClick={() => setOpenColorPicker(true)}
+            style={{
+              justifyContent: 'flex-end',
+              color: '#fff',
+              marginTop: '8px',
+              fontSize: '12px',
+              cursor: 'pointer',
+            }}
+          >
+            Edit
+            <PaletteIcon />
+          </IconButton>
+        </Box>
 
-            <Typography variant="h6" className="section-header" style={{ marginTop: '20px', marginBottom: '10px' }}>
-              Activity
-            </Typography>
-            <Typography>Favorites Added: {favorites.length}</Typography>
-          </Box>
-        )}
-        {value === 1 && (
-          <Box className="favorites-section">
-            <Typography variant="h6" className="section-header">
-              Liked
-            </Typography>
-            <Box className="movie-card-grid">
-              {favorites.map((movie, index) => (
-                <MovieCard
-                  key={index}
-                  movie={movie}
-                  favorites={favorites}
-                  setFavorites={setFavorites}
-                  watchlater={watchLater}
-                  setWatchlater={setWatchLater}
-                  onMouseEnter={(event) => openMovieDialog(movie, event)} // Pass event to capture position
-                  videos={{}}
-                />
-              ))}
+        {/* Navigation Tabs */}
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          className="navigation-tabs"
+          style={{
+            marginTop: '20px',
+            backgroundColor: '#424242',
+            borderRadius: '8px',
+            padding: '10px',
+            color: '#fff',
+          }}
+          indicatorColor="primary"
+          textColor="inherit"
+          centered
+        >
+          <Tab label="Overview" />
+          <Tab label="Liked" />
+          <Tab label="Watch Later" />
+        </Tabs>
+
+        {/* Content Section */}
+        <Box className="content-section">
+          {value === 0 && (
+            <Box
+              className="overview-section"
+              style={{
+                marginTop: '20px',
+                padding: '20px',
+                backgroundColor: '#333',
+                borderRadius: '8px',
+                color: 'white',
+                boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <Typography variant="h4" className="section-header" style={{ marginBottom: '10px' }}>
+                Account Details
+              </Typography>
+              <Box display="flex" alignItems="center">
+                <Typography>Username: {username}</Typography>
+                <IconButton
+                  onClick={() => setOpenUsernameDialog(true)}
+                  style={{
+                    marginLeft: '36px',
+                    color: '#fff',
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Edit
+                  <EditIcon />
+                </IconButton>
+              </Box>
+              <Typography>Email: {email}</Typography>
+
+              <Typography variant="h6" className="section-header" style={{ marginTop: '20px', marginBottom: '10px' }}>
+                Activity
+              </Typography>
+              <Typography>Favorites Added: {favorites.length}</Typography>
             </Box>
-          </Box>
-        )}
-        {value === 2 && (
-          <Box className="watch-later-section">
-            <Typography variant="h6" className="section-header">
-              Watch Later
-            </Typography>
-            <Box className="movie-card-grid">
-              {watchLater.map((movie, index) => (
-                <MovieCard
-                  key={index}
-                  movie={movie}
-                  favorites={favorites}
-                  setFavorites={setFavorites}
-                  watchlater={watchLater}
-                  setWatchlater={setWatchLater}
-                  onMouseEnter={openMovieDialog}
-                  videos={{}}
-                />
-              ))}
+          )}
+          {value === 1 && (
+            <Box className="favorites-section">
+              <Typography variant="h6" className="section-header">
+                Liked
+              </Typography>
+              <Box className="movie-card-grid">
+                {favorites.map((movie, index) => (
+                  <MovieCard
+                    key={index}
+                    movie={movie}
+                    favorites={favorites}
+                    setFavorites={setFavorites}
+                    watchlater={watchLater}
+                    setWatchlater={setWatchLater}
+                    onMouseEnter={(event) => openMovieDialog(movie, event)} // Pass event to capture position
+                    videos={{}}
+                  />
+                ))}
+              </Box>
             </Box>
-          </Box>
+          )}
+          {value === 2 && (
+            <Box className="watch-later-section">
+              <Typography variant="h6" className="section-header">
+                Watch Later
+              </Typography>
+              <Box className="movie-card-grid">
+                {watchLater.map((movie, index) => (
+                  <MovieCard
+                    key={index}
+                    movie={movie}
+                    favorites={favorites}
+                    setFavorites={setFavorites}
+                    watchlater={watchLater}
+                    setWatchlater={setWatchLater}
+                    onMouseEnter={openMovieDialog}
+                    videos={{}}
+                  />
+                ))}
+              </Box>
+            </Box>
+          )}
+        </Box>
+
+        {/* Color Picker Dialog */}
+        <Dialog open={openColorPicker} onClose={() => setOpenColorPicker(false)}>
+          <DialogTitle>Pick a Color</DialogTitle>
+          <DialogContent>
+            <ColorPickerWheel
+              color={bannerColor}
+              onChange={handleBannerColorChange}
+              size={300}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenColorPicker(false)} color="primary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Username Change Dialog */}
+        <Dialog open={openUsernameDialog} onClose={() => setOpenUsernameDialog(false)}>
+          <DialogTitle>Change Username</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="New Username"
+              type="text"
+              fullWidth
+              value={newUsername}
+              onChange={(e) => setNewUsername(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenUsernameDialog(false)} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleUsernameChange} color="primary">
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Movie Dialog */}
+        {selectedMovie && (
+          <MovieDialog
+            selectedMovie={selectedMovie}
+            openDialog={openDialog}
+            handleMouseLeave={closeMovieDialog}
+            dialogPosition={dialogPosition}
+            scrollPosition={scrollPosition}
+            favorites={favorites}
+            watchlater={watchLater}
+            setFavorites={setFavorites}
+            setWatchlater={setWatchLater}
+          />
         )}
       </Box>
-
-      {/* Color Picker Dialog */}
-      <Dialog open={openColorPicker} onClose={() => setOpenColorPicker(false)}>
-        <DialogTitle>Pick a Color</DialogTitle>
-        <DialogContent>
-          <ColorPickerWheel
-            color={bannerColor}
-            onChange={handleBannerColorChange}
-            size={300}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenColorPicker(false)} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Username Change Dialog */}
-      <Dialog open={openUsernameDialog} onClose={() => setOpenUsernameDialog(false)}>
-        <DialogTitle>Change Username</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="New Username"
-            type="text"
-            fullWidth
-            value={newUsername}
-            onChange={(e) => setNewUsername(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenUsernameDialog(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleUsernameChange} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Movie Dialog */}
-      {selectedMovie && (
-        <MovieDialog
-          selectedMovie={selectedMovie}
-          openDialog={openDialog}
-          handleMouseLeave={closeMovieDialog}
-          dialogPosition={dialogPosition}
-          scrollPosition={scrollPosition}
-          favorites={favorites}
-          watchlater={watchLater}
-          setFavorites={setFavorites}
-          setWatchlater={setWatchLater}
-        />
-      )}
     </Box>
   );
 };
