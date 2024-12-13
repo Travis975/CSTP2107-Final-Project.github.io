@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
-// not used for now
 
 const Carousel = ({
-  movies = [], // Default to an empty array to prevent undefined errors
+  movies = [],
   favorites,
   watchlater,
   setFavorites,
@@ -26,19 +25,17 @@ const Carousel = ({
   };
 
   useEffect(() => {
-    if (slideCount === 0) return; // Stop interval if there are no slides
+    if (slideCount === 0) return;
 
     const interval = setInterval(() => {
       nextSlide();
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [slideCount]); // Ensure this effect re-runs when `slideCount` changes
-
-  // Reset currentSlide if `movies` changes and becomes shorter
+  }, [slideCount]);
   useEffect(() => {
     if (currentSlide >= slideCount) {
-      setCurrentSlide(0); // Reset to the first slide if out of bounds
+      setCurrentSlide(0);
     }
   }, [movies, slideCount, currentSlide]);
 

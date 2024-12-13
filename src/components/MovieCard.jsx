@@ -1,12 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/moviecard.css";
-import {
-  addMovieToFavorites,
-  removeMovieFromFavorites,
-  addMovieToWatchlater,
-  removeMovieFromWatchlater,
-} from "../firebaseFunctions";
+import MovieDialog from "./MovieDialog"; // Importing MovieDialog
 
 const MovieCard = ({
   movie,
@@ -18,39 +13,28 @@ const MovieCard = ({
   setWatchlater,
   videos = {},
 }) => {
+  const [openDialog, setOpenDialog] = useState(false);
+
   if (!movie || !movie.id || !movie.poster_path) {
     console.error("Invalid movie data passed to MovieCard.");
     return null;
   }
 
-  const isFavorite = favorites.some((fav) => fav.id === movie.id);
-  const isWatchLater = watchlater.some((later) => later.id === movie.id);
-
-  const handleAddToFavorites = async () => {
-    await addMovieToFavorites(movie);
-    setFavorites((prev) => [...prev, movie]);
+  const handleMouseEnter = (event) => {
+    onMouseEnter && onMouseEnter(movie, event);
+    setOpenDialog(true);
   };
 
-  const handleRemoveFromFavorites = async () => {
-    await removeMovieFromFavorites(movie);
-    setFavorites((prev) => prev.filter((fav) => fav.id !== movie.id));
-  };
-
-  const handleAddToWatchLater = async () => {
-    await addMovieToWatchlater(movie);
-    setWatchlater((prev) => [...prev, movie]);
-  };
-
-  const handleRemoveFromWatchLater = async () => {
-    await removeMovieFromWatchlater(movie);
-    setWatchlater((prev) => prev.filter((later) => later.id !== movie.id));
+  const handleMouseLeave = () => {
+    onMouseLeave && onMouseLeave();
+    setOpenDialog(false);
   };
 
   return (
     <div
       className="movie-card"
-      onMouseEnter={(event) => onMouseEnter && onMouseEnter(movie, event)}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <Link
         to="/watch-trailer"
@@ -67,22 +51,15 @@ const MovieCard = ({
           />
         </div>
       </Link>
-      <div className="hover-actions">
-        {!isFavorite ? (
-          <button onClick={handleAddToFavorites}>Add to Favorites</button>
-        ) : (
-          <button onClick={handleRemoveFromFavorites}>
-            Remove from Favorites
-          </button>
-        )}
-        {!isWatchLater ? (
-          <button onClick={handleAddToWatchLater}>Add to Watch Later</button>
-        ) : (
-          <button onClick={handleRemoveFromWatchLater}>
-            Remove from Watch Later
-          </button>
-        )}
-      </div>
+      <MovieDialog
+        selectedMovie={movie}
+        openDialog={openDialog}
+        handleMouseLeave={handleMouseLeave}
+        favorites={favorites}
+        watchlater={watchlater}
+        setFavorites={setFavorites}
+        setWatchlater={setWatchlater}
+      />
     </div>
   );
 };

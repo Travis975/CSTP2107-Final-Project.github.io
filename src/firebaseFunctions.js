@@ -4,7 +4,13 @@ export const addMovieToFavorites = async (movie) => {
   try {
     const user = auth.currentUser;
     if (user) {
-      await setDoc(doc(db, "users", user.uid, "favorites", movie.id.toString()), movie);
+      const favoritesRef = doc(db, "users", user.uid, "favorites", movie.id.toString());
+      const docSnapshot = await getDocs(collection(db, "users", user.uid, "favorites"));
+
+      const alreadyExists = docSnapshot.docs.some((doc) => doc.data().id === movie.id);
+      if (!alreadyExists) {
+        await setDoc(favoritesRef, movie);
+      }
     } else {
       console.log("User not authenticated");
     }
@@ -29,18 +35,21 @@ export const addMovieToWatchlater = async (movie) => {
   try {
     const user = auth.currentUser;
     if (user) {
-      const watchlaterRef = collection(db, "users", user.uid, "watchlater");
-      const movieExists = await getDocs(watchlaterRef);
-      const alreadyAdded = movieExists.docs.some((doc) => doc.data().id === movie.id);
+      const watchlaterRef = doc(db, "users", user.uid, "watchlater", movie.id.toString());
+      const docSnapshot = await getDocs(collection(db, "users", user.uid, "watchlater"));
 
-      if (!alreadyAdded) {
-        await addDoc(watchlaterRef, movie);
+      const alreadyExists = docSnapshot.docs.some((doc) => doc.data().id === movie.id);
+      if (!alreadyExists) {
+        await setDoc(watchlaterRef, movie);
       }
+    } else {
+      console.log("User not authenticated");
     }
   } catch (error) {
     console.error("Error adding movie to watch later: ", error);
   }
 };
+
 export const removeMovieFromWatchlater = async (movie) => {
   try {
     const user = auth.currentUser;

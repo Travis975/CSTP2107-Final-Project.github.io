@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import { Box, Button, Typography, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth, db } from '../firebaseConfig'; 
-import { doc, getDoc, updateDoc } from 'firebase/firestore'; // Added updateDoc for default username assignment
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import Alert from '../components/Alert';
 import { getErrorCode } from '../utils';
@@ -28,7 +28,7 @@ const SignInPage = () => {
     try {
       const usernameDoc = await getDoc(doc(db, 'usernames', username.toLowerCase()));
       if (usernameDoc.exists()) {
-        return usernameDoc.data().email; // Return the associated email
+        return usernameDoc.data().email;
       } else {
         throw new Error('Username not found');
       }
@@ -47,10 +47,6 @@ const SignInPage = () => {
 
       const { user } = await signInWithEmailAndPassword(auth, email, credentials.password);
       const userDoc = await getDoc(doc(db, 'users', user.uid));
-      if (!userDoc.exists() || !userDoc.data().username) {
-        await assignDefaultUsername(user.uid, user.email);
-      }
-
       setAlertConfig({ message: 'Successfully Signed in', color: 'success', isOpen: true });
       setCurrentUser(user);
       setTimeout(() => {

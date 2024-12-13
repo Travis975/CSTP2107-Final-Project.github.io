@@ -5,18 +5,18 @@ import {
   addMovieToWatchlater, 
   removeMovieFromFavorites, 
   removeMovieFromWatchlater 
-} from '../firebaseFunctions'; // Ensure remove functions are imported
+} from '../firebaseFunctions';
 
 const MovieDialog = ({
   selectedMovie,
   openDialog,
   handleMouseLeave,
-  dialogPosition,
-  scrollPosition,
+  dialogPosition = { top: 0, left: 0 }, 
+  scrollPosition = { y: 0 },
   favorites,
   watchlater,
-  setFavorites, // Passed down from parent to update state
-  setWatchlater, // Passed down from parent to update state
+  setFavorites,
+  setWatchlater,
 }) => {
   if (!selectedMovie || !openDialog) return null;
 
@@ -24,37 +24,41 @@ const MovieDialog = ({
   const isWatchLater = watchlater.some((movie) => movie.id === selectedMovie.id);
 
   const handleAddToFavorites = async () => {
-    await addMovieToFavorites(selectedMovie);
-    setFavorites((prev) => [...prev, selectedMovie]); // Update local state to trigger re-render
+    if (!favorites.some((movie) => movie.id === selectedMovie.id)) {
+      await addMovieToFavorites(selectedMovie);
+      setFavorites((prev) => [...prev, selectedMovie]);
+    }
   };
-
+  
   const handleAddToWatchLater = async () => {
-    await addMovieToWatchlater(selectedMovie);
-    setWatchlater((prev) => [...prev, selectedMovie]); // Update local state to trigger re-render
+    if (!watchlater.some((movie) => movie.id === selectedMovie.id)) {
+      await addMovieToWatchlater(selectedMovie);
+      setWatchlater((prev) => [...prev, selectedMovie]);
+    }
   };
+  
 
   const handleRemoveFromFavorites = async () => {
     await removeMovieFromFavorites(selectedMovie);
-    setFavorites((prev) => prev.filter((movie) => movie.id !== selectedMovie.id)); // Update local state
+    setFavorites((prev) => prev.filter((movie) => movie.id !== selectedMovie.id));
   };
 
   const handleRemoveFromWatchLater = async () => {
     await removeMovieFromWatchlater(selectedMovie);
-    setWatchlater((prev) => prev.filter((movie) => movie.id !== selectedMovie.id)); // Update local state
+    setWatchlater((prev) => prev.filter((movie) => movie.id !== selectedMovie.id));
   };
 
   return (
     <div
       className="movie-dialog"
       style={{
-        top: dialogPosition.top - scrollPosition.y + 'px',
-        left: dialogPosition.left + 'px',
+        top: `${dialogPosition.top - scrollPosition.y}px`,
+        left: `${dialogPosition}px`,
       }}
       onMouseLeave={handleMouseLeave}
     >
       <div className="movie-dialog-content">
         <h3>{selectedMovie.title}</h3>
-        <p>{selectedMovie.overview}</p>
         <img
           src={`https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`}
           alt={selectedMovie.title}
