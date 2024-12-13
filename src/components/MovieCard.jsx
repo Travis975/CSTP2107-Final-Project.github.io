@@ -39,7 +39,7 @@ const MovieCard = ({
       <Link
         to="/watch-trailer"
         state={{
-          videoId: videos[movie.id]?.[0]?.key || null,
+          videoId: videos[movie.id] && videos[movie.id][0]?.key, // Correctly referencing the video key
           movieTitle: movie.title,
         }}
       >
@@ -51,6 +51,8 @@ const MovieCard = ({
           />
         </div>
       </Link>
+
+
       <MovieDialog
         selectedMovie={movie}
         openDialog={openDialog}
@@ -60,6 +62,7 @@ const MovieCard = ({
         setFavorites={setFavorites}
         setWatchlater={setWatchlater}
       />
+
     </div>
   );
 };

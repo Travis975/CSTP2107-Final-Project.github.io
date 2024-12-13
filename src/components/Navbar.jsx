@@ -145,8 +145,7 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                     }
                 })
             );
-    
-            // Remove null values (movies without trailers)
+
             const filteredResults = moviesWithTrailers.filter((movie) => movie !== null);
             setFilteredMovies(filteredResults);
         } catch (error) {

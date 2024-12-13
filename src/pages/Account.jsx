@@ -21,6 +21,7 @@ import ColorPickerDialog from "../components/ColorPickerDialog";
 import MovieCard from "../components/MovieCard";
 import "../css/account.css";
 import ColorPickerWheel from "react-color-picker-wheel";
+import MovieDialog from "../components/MovieDialog";
 
 const Account = () => {
   const [value, setValue] = useState(0);
@@ -35,6 +36,9 @@ const Account = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openUsernameDialog, setOpenUsernameDialog] = useState(false);
   const [newUsername, setNewUsername] = useState("");
+  const [dialogPosition, setDialogPosition] = useState({ top: 0, left: 0 });
+  const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -83,10 +87,14 @@ const Account = () => {
     }
   };
 
-  const openMovieDialog = (movie) => {
+  const openMovieDialog = (movie, event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setDialogPosition({ top: rect.top + window.scrollY, left: rect.left + window.scrollX });
+    setScrollPosition({ x: window.scrollX, y: window.scrollY });
     setSelectedMovie(movie);
     setOpenDialog(true);
   };
+  
 
   const closeMovieDialog = () => {
     setSelectedMovie(null);
@@ -229,7 +237,7 @@ const Account = () => {
                   setFavorites={setFavorites}
                   watchlater={watchLater}
                   setWatchlater={setWatchLater}
-                  onMouseEnter={openMovieDialog}
+                  onMouseEnter={(event) => openMovieDialog(movie, event)} // Pass event to capture position
                   videos={{}}
                 />
               ))}
@@ -306,8 +314,8 @@ const Account = () => {
           selectedMovie={selectedMovie}
           openDialog={openDialog}
           handleMouseLeave={closeMovieDialog}
-          dialogPosition={{ top: 0, left: 0 }}
-          scrollPosition={{ x: 0, y: 0 }}
+          dialogPosition={dialogPosition}
+          scrollPosition={scrollPosition}
           favorites={favorites}
           watchlater={watchLater}
           setFavorites={setFavorites}

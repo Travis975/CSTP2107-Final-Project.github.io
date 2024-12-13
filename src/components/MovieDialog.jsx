@@ -24,18 +24,25 @@ const MovieDialog = ({
   const isWatchLater = watchlater.some((movie) => movie.id === selectedMovie.id);
 
   const handleAddToFavorites = async () => {
-    if (!favorites.some((movie) => movie.id === selectedMovie.id)) {
-      await addMovieToFavorites(selectedMovie);
-      setFavorites((prev) => [...prev, selectedMovie]);
-    }
+    await addMovieToFavorites(selectedMovie); // Always add to Firebase
+    setFavorites((prev) => {
+      if (!prev.some((movie) => movie.id === selectedMovie.id)) {
+        return [...prev, selectedMovie];
+      }
+      return prev;
+    });
   };
   
   const handleAddToWatchLater = async () => {
-    if (!watchlater.some((movie) => movie.id === selectedMovie.id)) {
-      await addMovieToWatchlater(selectedMovie);
-      setWatchlater((prev) => [...prev, selectedMovie]);
-    }
+    await addMovieToWatchlater(selectedMovie);
+    setWatchlater((prev) => {
+      if (!prev.some((movie) => movie.id === selectedMovie.id)) {
+        return [...prev, selectedMovie];
+      }
+      return prev;
+    });
   };
+  
   
 
   const handleRemoveFromFavorites = async () => {

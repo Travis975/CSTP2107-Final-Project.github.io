@@ -10,6 +10,8 @@ export const addMovieToFavorites = async (movie) => {
       const alreadyExists = docSnapshot.docs.some((doc) => doc.data().id === movie.id);
       if (!alreadyExists) {
         await setDoc(favoritesRef, movie);
+      } else {
+        console.log("Movie already exists in Favorites.");
       }
     } else {
       console.log("User not authenticated");
@@ -18,6 +20,9 @@ export const addMovieToFavorites = async (movie) => {
     console.error("Error adding movie to favorites: ", error);
   }
 };
+
+
+
 export const removeMovieFromFavorites = async (movie) => {
   try {
     const user = auth.currentUser;
@@ -40,7 +45,9 @@ export const addMovieToWatchlater = async (movie) => {
 
       const alreadyExists = docSnapshot.docs.some((doc) => doc.data().id === movie.id);
       if (!alreadyExists) {
-        await setDoc(watchlaterRef, movie);
+        await setDoc(watchlaterRef, movie); // Add only if it doesn't already exist
+      } else {
+        console.log("Movie already exists in Watch Later.");
       }
     } else {
       console.log("User not authenticated");

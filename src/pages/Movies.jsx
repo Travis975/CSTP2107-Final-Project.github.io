@@ -24,11 +24,27 @@ const Movies = () => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setMovies(data.results);
+      const moviesWithVideos = await Promise.all(
+        data.results.map(async (movie) => {
+          try {
+            const videoResponse = await fetch(
+              `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${import.meta.env.VITE_TMDB_API_KEY}`
+            );
+            const videoData = await videoResponse.json();
+            return { ...movie, videos: videoData.results };
+          } catch (videoError) {
+            console.error(`Error fetching videos for movie ID ${movie.id}:`, videoError);
+            return { ...movie, videos: [] };
+          }
+        })
+      );
+  
+      setMovies(moviesWithVideos);
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
   };
+  
 
   useEffect(() => {
     fetchMovies(
@@ -44,6 +60,7 @@ const Movies = () => {
       setTopRatedMovies
     );
   }, []);
+  
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -78,9 +95,9 @@ const Movies = () => {
         {movies
           .slice(index, index + itemsPerPage)
           .concat(movies.slice(0, Math.max(0, index + itemsPerPage - movies.length)))
-          .map((movie) => (
+          .map((movie, idx) => (
             <MovieCard
-              key={movie.id}
+              key={`${movie.id}-${idx}`} // Ensure unique keys
               movie={movie}
               favorites={favorites}
               watchlater={watchlater}
@@ -93,6 +110,7 @@ const Movies = () => {
       </div>
     </div>
   );
+  
 
   return (
     <div className="movie-page">
