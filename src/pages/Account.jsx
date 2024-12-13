@@ -206,13 +206,13 @@ const Account = () => {
                 <IconButton
                   onClick={() => setOpenUsernameDialog(true)}
                   style={{
-                    marginLeft: '36px',
+                    marginLeft: '0px',
                     color: '#fff',
                     fontSize: '12px',
                     cursor: 'pointer',
                   }}
                 >
-                  Edit
+               
                   <EditIcon />
                 </IconButton>
               </Box>
