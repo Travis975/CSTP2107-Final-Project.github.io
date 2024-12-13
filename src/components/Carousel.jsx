@@ -65,11 +65,11 @@ const Carousel = ({ movies = [] }) => {
             {movies[currentSlide]?.title}
           </Typography>
           <Box display="flex" alignItems="center" gap={2}>
-            <Typography variant="body1">{movies[currentSlide]?.vote_average} ⭐</Typography>
+            <Typography variant="body1">{movies[currentSlide]?.vote_average.toFixed(1)} ⭐</Typography>
             <Typography variant="body1">{new Date(movies[currentSlide]?.release_date).getFullYear()}</Typography>
           </Box>
           <Typography variant="body1" gutterBottom>
-            {movies[currentSlide]?.overview || "No description available."}
+            {(movies[currentSlide]?.overview.slice(0, 160) + "...") || "No description available."}
           </Typography>
           <Button
             variant="contained"

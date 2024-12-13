@@ -18,7 +18,7 @@ const Movies = () => {
   const [favoriteIndex, setFavoriteIndex] = useState(0);
   const [watchLaterIndex, setWatchLaterIndex] = useState(0);
 
-  const BannerMovies = popularMovies.slice(0,5);
+  const BannerMovies = popularMovies.slice(1,6);
 
   const itemsPerPage = 5;
 
