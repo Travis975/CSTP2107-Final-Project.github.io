@@ -99,7 +99,7 @@ const HomePage = () => {
                 
                 {/* Movie Details on Hover */}
                 <div className="movie-details-homepage">
-                  <p className="movie-release-date-homepage">Average Rating: {movie.vote_average.toFixed(2)} / 10</p>
+                  <p className="movie-release-date-homepage">Movie Rating: {movie.vote_average.toFixed(1)} ⭐</p>
                   <p className="movie-description-homepage">{movie.overview}</p>
                 </div>
               </div>
