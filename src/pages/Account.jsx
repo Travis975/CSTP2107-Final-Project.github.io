@@ -227,9 +227,6 @@ const Account = () => {
           )}
           {value === 1 && (
             <Box className="favorites-section">
-              <Typography variant="h6" className="section-header">
-                Liked
-              </Typography>
               <Box className="movie-card-grid">
                 {favorites.map((movie, index) => (
                   <MovieCard
@@ -239,7 +236,7 @@ const Account = () => {
                     setFavorites={setFavorites}
                     watchlater={watchLater}
                     setWatchlater={setWatchLater}
-                    onMouseEnter={(event) => openMovieDialog(movie, event)} // Pass event to capture position
+                    onMouseEnter={(event) => openMovieDialog(movie, event)}
                     videos={{}}
                   />
                 ))}
@@ -248,9 +245,6 @@ const Account = () => {
           )}
           {value === 2 && (
             <Box className="watch-later-section">
-              <Typography variant="h6" className="section-header">
-                Watch Later
-              </Typography>
               <Box className="movie-card-grid">
                 {watchLater.map((movie, index) => (
                   <MovieCard
@@ -260,7 +254,7 @@ const Account = () => {
                     setFavorites={setFavorites}
                     watchlater={watchLater}
                     setWatchlater={setWatchLater}
-                    onMouseEnter={openMovieDialog}
+                    onMouseEnter={(event) => openMovieDialog(movie, event)} 
                     videos={{}}
                   />
                 ))}
