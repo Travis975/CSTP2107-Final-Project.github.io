@@ -24,14 +24,23 @@ const MovieDialog = ({
   const isWatchLater = watchlater.some((movie) => movie.id === selectedMovie.id);
 
   const handleAddToFavorites = async () => {
-    await addMovieToFavorites(selectedMovie); // Always add to Firebase
-    setFavorites((prev) => {
-      if (!prev.some((movie) => movie.id === selectedMovie.id)) {
-        return [...prev, selectedMovie];
+    console.log("Add to favorites triggered / movie dialog");
+    
+    // Check if the movie is already in favorites before proceeding to Firebase
+    if (!favorites.some((movie) => movie.id === selectedMovie.id)) {
+      await addMovieToFavorites(selectedMovie);
+    }
+  
+    // Update the local state
+    setFavorites((prevFavorites) => {
+      if (prevFavorites.some((movie) => movie.id === selectedMovie.id)) {
+        return prevFavorites; // Return the previous state if the movie already exists
       }
-      return prev;
+  
+      return [...prevFavorites, selectedMovie]; // Add the movie if it doesn't exist
     });
   };
+  
   
   const handleAddToWatchLater = async () => {
     await addMovieToWatchlater(selectedMovie);
@@ -72,7 +81,15 @@ const MovieDialog = ({
         />
         <div className="movie-dialog-buttons">
           {!isFavorite && (
-            <button onClick={handleAddToFavorites}>Add to Favorites</button>
+            <button
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent bubbling
+              handleAddToFavorites();
+            }}
+          >
+            Add to Favorites
+          </button>
+          
           )}
           {isFavorite && (
             <button onClick={handleRemoveFromFavorites}>Remove from Favorites</button>

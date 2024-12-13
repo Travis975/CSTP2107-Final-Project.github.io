@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
 import MovieCard from "../components/MovieCard";
-import Navbar from "../components/Navbar";
 import Carousel from "../components/Carousel";
 import "../css/movies.css";
 
@@ -13,10 +12,13 @@ const Movies = () => {
   const [videos, setVideos] = useState({});
   const [favorites, setFavorites] = useState([]);
   const [watchlater, setWatchlater] = useState([]);
+  const [popularIndex, setPopularIndex] = useState(0);
   const [upcomingIndex, setUpcomingIndex] = useState(0);
   const [topRatedIndex, setTopRatedIndex] = useState(0);
   const [favoriteIndex, setFavoriteIndex] = useState(0);
   const [watchLaterIndex, setWatchLaterIndex] = useState(0);
+
+  const BannerMovies = popularMovies.slice(0,5);
 
   const itemsPerPage = 5;
 
@@ -66,18 +68,23 @@ const Movies = () => {
     const user = auth.currentUser;
     if (user) {
       const favoritesRef = collection(db, "users", user.uid, "favorites");
-      const watchlaterRef = collection(db, "users", user.uid, "watchlater");
-
-      onSnapshot(favoritesRef, (snapshot) => {
-        setFavorites(snapshot.docs.map((doc) => doc.data()));
+  
+      const unsubscribe = onSnapshot(favoritesRef, (snapshot) => {
+        const uniqueFavorites = snapshot.docs
+          .map((doc) => doc.data())
+          .reduce((acc, movie) => {
+            if (!acc.some((m) => m.id === movie.id)) {
+              acc.push(movie);
+            }
+            return acc;
+          }, []);
+        setFavorites(uniqueFavorites);
       });
-
-      onSnapshot(watchlaterRef, (snapshot) => {
-        setWatchlater(snapshot.docs.map((doc) => doc.data()));
-      });
+  
+      return () => unsubscribe();
     }
   }, []);
-
+  
   const scroll = (movies, setIndex, direction) => {
     const totalMovies = movies.length;
     if (direction === "next") {
@@ -115,18 +122,18 @@ const Movies = () => {
   return (
     <div className="movie-page">
       <Carousel
-        movies={popularMovies}
+        movies={BannerMovies}
         favorites={favorites}
         watchlater={watchlater}
         setFavorites={setFavorites}
         setWatchlater={setWatchlater}
         videos={videos}
       />
+      {renderSection("Popular Movies", popularMovies, popularIndex, setPopularIndex)}
       {renderSection("Upcoming Movies", upcomingMovies, upcomingIndex, setUpcomingIndex)}
       {renderSection("Top Rated Movies", topRatedMovies, topRatedIndex, setTopRatedIndex)}
       {renderSection("Favorites", favorites, favoriteIndex, setFavoriteIndex)}
       {renderSection("Watch Later", watchlater, watchLaterIndex, setWatchLaterIndex)}
-      <Navbar />
     </div>
   );
 };
