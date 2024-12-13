@@ -112,25 +112,48 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
     const handleSearchChange = async (event) => {
         const query = event.target.value.toLowerCase();
         setSearchQuery(query);
-
+    
         if (query.trim() === '') {
             setFilteredMovies([]);
             return;
         }
-
+    
         const genreId = genres[query];
         const url = genreId
             ? `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`
             : `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`;
-
+    
         try {
             const response = await fetch(url);
             const data = await response.json();
-            setFilteredMovies(data.results || []);
+            
+            // Filter results to only include movies with posters
+            const moviesWithPosters = (data.results || []).filter((movie) => movie.poster_path);
+    
+            // Check for trailer availability for each movie
+            const moviesWithTrailers = await Promise.all(
+                moviesWithPosters.map(async (movie) => {
+                    try {
+                        const trailerResponse = await fetch(
+                            `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${API_KEY}`
+                        );
+                        const trailerData = await trailerResponse.json();
+                        return trailerData.results && trailerData.results.length > 0 ? movie : null;
+                    } catch (error) {
+                        console.error(`Error checking trailer for movie ${movie.id}:`, error);
+                        return null;
+                    }
+                })
+            );
+    
+            // Remove null values (movies without trailers)
+            const filteredResults = moviesWithTrailers.filter((movie) => movie !== null);
+            setFilteredMovies(filteredResults);
         } catch (error) {
             console.error('Error fetching search results:', error);
         }
     };
+    
 
     const publicRoutes = ['/', '/signin', '/signup', '/privacy-policy', '/terms-and-conditions'];
     const isPublicRoute = publicRoutes.includes(location.pathname);
@@ -259,8 +282,9 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                                                                     );
                                                                     const data = await response.json();
                                                                     const videoId = data.results[0]?.key;
-
+                                                            
                                                                     if (videoId) {
+                                                                        handleSearchClose(); // Close the search modal
                                                                         navigate('/watch-trailer', {
                                                                             state: { videoId, movieTitle: movie.title },
                                                                         });
@@ -272,6 +296,7 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                                                                     alert('Failed to fetch trailer!');
                                                                 }
                                                             }}
+                                                            
                                                         >
                                                             <img
                                                                 src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
