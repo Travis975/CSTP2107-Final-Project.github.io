@@ -164,7 +164,7 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                 justifyContent: 'space-between',
                 padding: '0 16px',
                 backgroundColor: '#D3D3D3',
-                height: '80px',
+                height: '60px',
             }}
         >
             <Toolbar style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
@@ -176,7 +176,7 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                             height: 60,
                             cursor: 'pointer',
                             marginLeft: '-15px',
-                            marginTop: '35px',
+                            marginTop: '5px',
                         }}
                         onClick={handleLogoClick}
                     />
@@ -217,7 +217,7 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                         </>
                     ) : (
                         <>
-                            <IconButton onClick={handleSearchOpen} style={{ position: 'relative', top: '27px', left: '-65px' }}>
+                            <IconButton onClick={handleSearchOpen} style={{ position: 'relative', top: '-17px', left: '-15px' }}>
                                 <SearchIcon sx={{ fontSize: '42px', color: '#4262BE' }} />
                             </IconButton>
                             
@@ -327,7 +327,7 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                                     height: 45,
                                     cursor: 'pointer',
                                     marginRight: '15px',
-                                    marginTop: '-25px',
+                                    marginTop: '20px',
                                 }}
                                 onMouseEnter={handleUserLogoHover}
                             />
