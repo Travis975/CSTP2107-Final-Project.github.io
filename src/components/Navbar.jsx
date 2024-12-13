@@ -88,16 +88,13 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
         handleCloseDropdown();
     };
 
-    const handleDivNavigation = (route) => {
-        navigate(`/movies#${route}`);
-        setTimeout(() => {
-            if (route === 'favorites' && favoritesRef) {
-                favoritesRef.current.scrollIntoView({ behavior: 'smooth' });
-            } else if (route === 'watchlater' && watchlaterRef) {
-                watchlaterRef.current.scrollIntoView({ behavior: 'smooth' });
-            }
-        }, 100);
+    const handleDivNavigation = (section) => {
+        const ref = section === "favorites" ? favoritesRef : watchlaterRef;
+        if (ref && ref.current) {
+            ref.current.scrollIntoView({ behavior: 'smooth' });
+        }
     };
+    
 
     const handleSearchOpen = () => {
         setIsSearchOpen(true);
@@ -156,6 +153,11 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
 
     const publicRoutes = ['/', '/signin', '/signup', '/privacy-policy', '/terms-and-conditions'];
     const isPublicRoute = publicRoutes.includes(location.pathname);
+
+    const isAccountPage = location.pathname === "/account";
+    const isWatchTrailerPage = location.pathname === "/watch-trailer";
+
+
 
     return (
         <AppBar
@@ -342,12 +344,16 @@ const Navbar = ({ favoritesRef, watchlaterRef }) => {
                                 <MenuItem onClick={() => handleNavigation('/account')}>
                                     My Account
                                 </MenuItem>
-                                <MenuItem onClick={() => handleDivNavigation('favorites')}>
-                                    Favorite Movies
-                                </MenuItem>
-                                <MenuItem onClick={() => handleDivNavigation('watchlater')}>
-                                    Watch Later
-                                </MenuItem>
+                                {!isAccountPage && !isWatchTrailerPage && (
+                                     <>
+                                        <MenuItem onClick={() => handleDivNavigation("favorites")}>
+                                            Favorite Movies
+                                        </MenuItem>
+                                        <MenuItem onClick={() => handleDivNavigation("watchlater")}>
+                                            Watch Later
+                                        </MenuItem>
+                                     </>
+                                )}
                                 <MenuItem onClick={handleSignout}>Sign Out</MenuItem>
                             </Menu>
                         </>
