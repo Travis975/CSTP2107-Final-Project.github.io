@@ -74,7 +74,7 @@ const SignInPage = () => {
   return (
     <div className='sign-in-page'>
       <Box className="signin-container">
-        <Typography className="signin-header">Sign in</Typography>
+        <Typography className="signin-header"><h1 className="signin-title">Sign in</h1></Typography>
         <TextField
           required
           id="email"
@@ -96,7 +96,7 @@ const SignInPage = () => {
           className="signin-textfield"
         />
         <Button onClick={handleSignin} variant="contained" >
-          Signin
+          Sign in
         </Button>
         <Typography
           variant="body2"
